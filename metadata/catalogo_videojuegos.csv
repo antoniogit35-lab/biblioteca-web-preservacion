@@ -1,0 +1,3 @@
+id,titulo,plataforma,tipo_soporte,num_discos,disco_indice,region,serial,tengo_fisico,estado_soporte,dumpeado,ruta_archivo,tamano_bytes,hash_sha256,emulador_probado,fecha_dump,hash_verificado,notas
+COD1-PC-1,Call of Duty,PC,CD,2,1,,,sí,Perfecto estado,no,,,,,,no,Ejemplo inicial para Call of Duty (PC) disco 1
+COD1-PC-2,Call of Duty,PC,CD,2,2,,,sí,Perfecto estado,no,,,,,,no,Ejemplo inicial para Call of Duty (PC) disco 2

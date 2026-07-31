@@ -1,0 +1,49 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs y temporales
+*.log
+*.tmp
+*.bak
+
+# Archivos de preservación a excluir por seguridad
+*.iso
+*.bin
+*.cue
+*.img
+*.mdf
+*.nrg
+*.chd
+*.cso
+*.rvz
+*.wbfs
+*.rom
+*.nes
+*.sfc
+*.smc
+*.gba
+*.nds
+*.3ds
+*.cia
+*.zip
+*.7z
+*.rar
+
+# BIOS y firmwares
+bios/
+firmware/
+
+# Dumps y copias privadas
+archivo-privado/
+dumps/
+backups/
+
+# Exportaciones locales opcionales
+metadata/*.ods
+metadata/*.xlsx
+metadata/*.xls
