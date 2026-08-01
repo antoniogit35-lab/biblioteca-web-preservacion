@@ -8,6 +8,12 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Separar scripts del HTML principal.
 - Conectar la interfaz con los datos reales del catálogo.
 
+## [v0.1.3] - 2026-08-01
+
+### Cambiado
+- Sustituidos los emojis de los filtros de plataforma por iconos PNG específicos para cada sistema.
+- Ajustado el ancho mínimo de las tarjetas de filtro para que nombres de plataforma más largos (como GameCube) se muestren correctamente.
+
 ## [v0.1.2] - 2026-08-01
 
 ### Añadido
@@ -18,7 +24,7 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 ### Cambiado
 - Rediseñado el hero principal para presentar la biblioteca como “Biblioteca de juegos” con descripción clara de su propósito.
 - Ajustado el placeholder de la barra de búsqueda para indicar búsqueda por título o notas, eliminando la referencia a plataforma.
-- Rediseñados los filtros de plataforma como tarjetas compactas con icono representativo (ratón para PC y mandos para consolas).
+- Rediseñados los filtros de plataforma como tarjetas compactas con icono representativo.
 - Actualizadas las estadísticas iniciales para eliminar la referencia a compatibilidad moderna y mostrar métricas más generales de la colección.
 - Unificada la estructura de las tarjetas de juego:
   - Primera línea con el nombre y el estado del dump.
