@@ -5,8 +5,31 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 ## [Unreleased]
 
 ### Pendiente
-- Separar scripts del HTML principal.
-- Conectar la interfaz con los datos reales del catálogo.
+- Añadir soporte de portadas por juego usando imágenes locales en `assets/img/frontpages` y un campo dedicado en el catálogo.
+- Implementar filtros interactivos por plataforma en la barra superior (PC, PS2, PS3, etc.) conectados a los datos reales.
+- Activar la búsqueda por título y notas sobre el catálogo cargado en memoria.
+- Incorporar filtros por estado de preservación basados en `estado_dump` y `estado_compatibilidad`:
+- Ver solo dumps correctos (`OK`, `OK_con_avisos`).
+- Ver solo dumps fallidos o pendientes.
+- Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
+- Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
+
+## [v0.2.0] - 2026-08-01
+
+### Añadido
+- Carga del catálogo real desde `metadata/catalogo_videojuegos.csv` exportado desde LibreOffice.
+- Parser CSV en JavaScript adaptado a separador `;` y codificación UTF-8.
+- Generación dinámica de tarjetas de juego a partir de los datos del catálogo.
+- Cálculo automático de estadísticas de la colección (juegos catalogados, dumps correctos, estados pendientes/fallidos, plataformas visibles).
+
+### Cambiado
+- La sección "Juegos de ejemplo" pasa de ser una maqueta estática a utilizar datos reales del catálogo.
+- El estado visual de los dumps (`Dump OK`, `Dump fallido`, `Dump pendiente`) se deriva ahora de la columna `estado_dump` según el checklist de preservación.
+- El indicador de "Hash verificado" se basa en la columna `hash_verificado` de todos los discos de cada juego.
+- Las notas de cada juego se toman directamente de la columna `notas` del catálogo y se muestran en la tarjeta.
+
+### Documentación
+- Actualizada la checklist de preservación para alinearla con las columnas actuales del catálogo y el uso en la interfaz.
 
 ## [v0.1.3] - 2026-08-01
 

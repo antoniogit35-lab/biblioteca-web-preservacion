@@ -119,168 +119,26 @@
       <section class="stats">
         <article class="stat-card">
           <div class="stat-label">Juegos catalogados</div>
-          <div class="stat-value">2</div>
+          <div class="stat-value" id="stat-games">0</div>
         </article>
         <article class="stat-card">
           <div class="stat-label">Dumps correctos</div>
-          <div class="stat-value">1</div>
+          <div class="stat-value" id="stat-dumps-ok">0</div>
         </article>
         <article class="stat-card">
           <div class="stat-label">Estados pendientes o fallidos</div>
-          <div class="stat-value">1</div>
+          <div class="stat-value" id="stat-dumps-pending">0</div>
         </article>
         <article class="stat-card">
           <div class="stat-label">Plataformas visibles</div>
-          <div class="stat-value">12</div>
+          <div class="stat-value" id="stat-platforms">0</div>
         </article>
       </section>
 
       <section>
         <h2 class="section-title">Juegos de ejemplo</h2>
-        <div class="grid">
-          <article class="card">
-            <div class="card-header">
-              <div class="title-block">
-                <h2>Ford Racing 2</h2>
-                <div class="subtitle">PC · 2003</div>
-              </div>
-              <span class="badge badge-ok">Dump OK</span>
-            </div>
-
-            <div class="cover-frame">
-              <img class="cover"
-                  src="https://picsum.photos/seed/ford-racing-2/300/420"
-                  alt="Portada de Ford Racing 2"
-                  width="300" height="420" loading="lazy" />
-            </div>
-
-            <div class="meta">
-              <div>
-                <span>Compatibilidad</span>
-                Requiere ajustes
-              </div>
-              <div>
-                <span>Hash</span>
-                Verificado
-              </div>
-              <div>
-                <span>Estado de prueba</span>
-                Funciona
-              </div>
-            </div>
-
-            <div class="notes">
-              Instalado y probado desde la ISO. Arranca, pero en Windows moderno aparece un error relacionado con WMA / DirectShow al pasar de los menús.
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div class="title-block">
-                <h2>Call of Duty</h2>
-                <div class="subtitle">PC · 2003</div>
-              </div>
-              <span class="badge badge-danger">Dump fallido</span>
-            </div>
-
-            <div class="cover-frame">
-              <img class="cover"
-                  src="https://picsum.photos/seed/call-of-duty/300/420"
-                  alt="Portada de Call of Duty"
-                  width="300" height="420" loading="lazy" />
-            </div>
-
-            <div class="meta">
-              <div>
-                <span>Compatibilidad</span>
-                Requiere ajustes
-              </div>
-              <div>
-                <span>Hash</span>
-                No verificado
-              </div>
-              <div>
-                <span>Estado de prueba</span>
-                Fallido
-              </div>
-            </div>
-
-            <div class="notes">
-              La instalación desde disco físico terminó, pero fue extremadamente lenta. El dump con lector externo dio muchos errores de lectura y queda pendiente repetirlo con otro lector.
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div class="title-block">
-                <h2>Gran Turismo 4</h2>
-                <div class="subtitle">PS2 · 2004</div>
-              </div>
-              <span class="badge badge-ok">Dump OK</span>
-            </div>
-
-            <div class="cover-frame">
-              <img class="cover"
-                  src="https://picsum.photos/seed/gran-turismo-4/300/420"
-                  alt="Portada de Gran Turismo 4"
-                  width="300" height="420" loading="lazy" />
-            </div>
-
-            <div class="meta">
-              <div>
-                <span>Emulador probado</span>
-                PCSX2
-              </div>
-              <div>
-                <span>Hash</span>
-                Verificado
-              </div>
-              <div>
-                <span>Estado de prueba</span>
-                A revisar
-              </div>
-            </div>
-
-            <div class="notes">
-              Inicia y permite navegar por los menús principales, pero queda pendiente revisar el rendimiento sostenido durante carreras largas y confirmar ajustes óptimos.
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-header">
-              <div class="title-block">
-                <h2>Mario Kart DS</h2>
-                <div class="subtitle">DS · 2005</div>
-              </div>
-              <span class="badge badge-warn">Dump Pendiente</span>
-            </div>
-
-            <div class="cover-frame">
-              <img class="cover"
-                  src="https://picsum.photos/seed/mario-kart-ds/300/420"
-                  alt="Portada de Mario Kart DS"
-                  width="300" height="420" loading="lazy" />
-            </div>
-
-            <div class="meta">
-              <div>
-                <span>Emulador probado</span>
-                MelonDS
-              </div>
-              <div>
-                <span>Hash</span>
-                Verificado
-              </div>
-              <div>
-                <span>Estado de prueba</span>
-                Pendiente
-              </div>
-            </div>
-
-            <div class="notes">
-              ROM organizada y verificada, pero todavía no se ha completado una sesión de prueba para validar comportamiento, audio y guardado.
-            </div>
-          </article>
+        <div class="grid" id="games-grid">
+          <!-- Las tarjetas se generan con JS -->
         </div>
       </section>
     </main>
@@ -289,5 +147,7 @@
       Maqueta estática revisada para cerrar la versión visual antes de conectar la biblioteca al CSV real.
     </footer>
   </div>
+<script src="assets/js/catalogo.js"></script>
+<script src="assets/js/ui.js"></script>
 </body>
 </html>
