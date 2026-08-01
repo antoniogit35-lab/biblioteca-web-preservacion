@@ -47,3 +47,6 @@ backups/
 metadata/*.ods
 metadata/*.xlsx
 metadata/*.xls
+
+# Archivos de bloqueo temporales de LibreOffice
+.~lock.*#
