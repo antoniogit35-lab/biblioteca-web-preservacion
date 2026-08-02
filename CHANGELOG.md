@@ -14,6 +14,17 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
 - Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
 
+## [v0.2.1] - YYYY-MM-DD
+
+### Añadido
+- Campo de portada por juego en el catálogo (`metadata/catalogo_videojuegos.csv`) para enlazar cada título con su imagen local.
+- Soporte de portadas en la interfaz usando imágenes en `assets/img/frontpages`.
+- Fallback automático a una portada genérica cuando un juego aún no tenga imagen propia.
+
+### Cambiado
+- Las tarjetas de juego dejan de usar portadas aleatorias remotas y pasan a priorizar las imágenes locales de la colección.
+- Documentación actualizada para explicar el esquema de nombres de archivo de las portadas y cómo añadir nuevas imágenes al catálogo visual.
+
 ## [v0.2.0] - 2026-08-01
 
 ### Añadido

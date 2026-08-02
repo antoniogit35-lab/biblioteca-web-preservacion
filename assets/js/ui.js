@@ -57,8 +57,12 @@ function crearTarjetaJuego(juego) {
 
   const subtitle = document.createElement("div");
   subtitle.className = "subtitle";
-  // De momento no tenemos año en el CSV, así que mostramos solo plataforma
-  subtitle.textContent = `${juego.plataforma}`;
+ 
+  if (juego.anio) {
+    subtitle.textContent = `${juego.plataforma} · ${juego.anio}`;
+  } else {
+    subtitle.textContent = `${juego.plataforma}`;
+  }
 
   titleBlock.appendChild(h2);
   titleBlock.appendChild(subtitle);
@@ -81,9 +85,14 @@ function crearTarjetaJuego(juego) {
   img.height = 420;
   img.alt = `Portada de ${juego.titulo}`;
 
-  // Mientras no tengas una columna de portada en el CSV, usamos picsum
   const seed = encodeURIComponent(`${juego.titulo}-${juego.plataforma}`);
-  img.src = `https://picsum.photos/seed/${seed}/300/420`;
+
+  if (juego.portada) {
+    img.src = `assets/img/frontpages/${juego.portada}.png`;
+  } else {
+    img.src = `https://picsum.photos/seed/${seed}/300/420`;
+  }
+  
 
   coverFrame.appendChild(img);
 

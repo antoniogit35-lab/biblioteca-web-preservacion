@@ -85,7 +85,10 @@ function agruparPorJuego(registrosDiscos) {
       discos,
       estadoDump: derivarEstadoDump(discos),
       hashVerificado: derivarHashVerificado(discos),
-      notasResumen: derivarNotasResumen(discos)
+      notasResumen: derivarNotasResumen(discos),
+      anio: base.anio || "",              // nuevo campo
+      emulador_usado: base.emulador_usado || "",
+      portada: base.portada || ""
     };
 
     juegos.push(juego);

@@ -41,6 +41,21 @@ biblioteca-web/
 - DS
 - 3DS
 - Wii
+  
+## Documentación
+
+La documentación detallada del proyecto se encuentra en la carpeta `docs/`:
+
+- `docs/checklist-preservacion-videojuegos.md`  
+  Flujo completo de preservación de discos: preparar el soporte, crear la imagen, calcular el hash, probar compatibilidad y rellenar el catálogo.
+
+- `docs/catalogo_videojuegos.md`  
+  Esquema del archivo `metadata/catalogo_videojuegos.csv`, convenciones de columnas (`estado_dump`, `estado_compatibilidad`, `anio`, `portada`, etc.) y relación entre el catálogo y la interfaz web.
+
+Además:
+
+- `CHANGELOG.md` recoge la evolución de las versiones (`v0.1.x`, `v0.2.x`, etc.) y los cambios funcionales entre releases.
+- Los tags de Git (`v0.2.0`, `v0.2.1`, ...) se utilizan para marcar cada versión estable del proyecto y facilitar su seguimiento.
 
 ## Notas
 
