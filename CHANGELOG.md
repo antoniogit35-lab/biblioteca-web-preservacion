@@ -14,16 +14,24 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
 - Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
 
-## [v0.2.1] - YYYY-MM-DD
+## [v0.2.2] - 2026-08-02
+
+### Arreglado
+
+- Problema con CHANGELOG.md en la versión anterior que no se había actualizado correctamente.
+
+## [v0.2.1] - 2026-08-02
 
 ### Añadido
-- Campo de portada por juego en el catálogo (`metadata/catalogo_videojuegos.csv`) para enlazar cada título con su imagen local.
-- Soporte de portadas en la interfaz usando imágenes en `assets/img/frontpages`.
-- Fallback automático a una portada genérica cuando un juego aún no tenga imagen propia.
+- Columna `anio` en el catálogo para mostrar el año de salida junto a la plataforma en las tarjetas de juego.
+- Columna `emulador_usado` para reflejar el emulador en el que se han probado los juegos de consola.
+- Columna `portada` que enlaza cada juego con un identificador de imagen local en `assets/img/frontpages`.
+- Soporte de portadas locales en la interfaz, priorizando imágenes de la colección frente a las portadas aleatorias.
 
 ### Cambiado
-- Las tarjetas de juego dejan de usar portadas aleatorias remotas y pasan a priorizar las imágenes locales de la colección.
-- Documentación actualizada para explicar el esquema de nombres de archivo de las portadas y cómo añadir nuevas imágenes al catálogo visual.
+- Las tarjetas de juego muestran ahora `Plataforma · Año` en la línea de subtítulo.
+- Las portadas remotas de ejemplo se sustituyen por imágenes locales basadas en el identificador `portada`.
+- Se actualiza el parser CSV para admitir las nuevas columnas y mantener la compatibilidad con el catálogo existente.
 
 ## [v0.2.0] - 2026-08-01
 
