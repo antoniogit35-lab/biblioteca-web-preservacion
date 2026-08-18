@@ -10,14 +10,13 @@ async function cargarCatalogoCSV() {
 }
 
 function parsearCSV(textoCSV) {
-  const lineas = textoCSV.trim().split("\n");
+  const lineas = textoCSV.trim().split(/\r?\n/);
   if (lineas.length < 2) return [];
 
-  const separadorLinea0 = lineas[0].includes(";") ? ";" : ",";
-  const cabeceras = parsearLineaCSV(lineas[0], separadorLinea0);
+  const separador = ";";
+  const cabeceras = parsearLineaCSV(lineas[0], separador);
 
   return lineas.slice(1).map(linea => {
-    const separador = linea.includes(";") ? ";" : ",";
     const valores = parsearLineaCSV(linea, separador);
     const registro = {};
 
@@ -79,16 +78,21 @@ function agruparPorJuego(registrosDiscos) {
 
     const juego = {
       titulo: base.titulo,
+      anio: base.anio || "",
       plataforma: base.plataforma,
+      portada: base.portada || "",
       tipo_soporte: base.tipo_soporte,
       num_discos: base.num_discos,
       discos,
+
       estadoDump: derivarEstadoDump(discos),
+      fechaDump: derivarFechaDump(discos),
       hashVerificado: derivarHashVerificado(discos),
-      notasResumen: derivarNotasResumen(discos),
-      anio: base.anio || "",              // nuevo campo
-      emulador_usado: base.emulador_usado || "",
-      portada: base.portada || ""
+      hashSha256: derivarHashSha256(discos),
+
+      emuladorProbado: derivarCampoComun(discos, "emulador_probado"),
+      estadoCompatibilidad: derivarEstadoCompatibilidad(discos),
+      notasResumen: derivarNotasResumen(discos)
     };
 
     juegos.push(juego);
@@ -119,8 +123,47 @@ function derivarEstadoDump(discos) {
 }
 
 function derivarHashVerificado(discos) {
-  // hash_verificado: "Sí"/"No" (con posibles acentos raros)
   return discos.every(d => esSi(d.hash_verificado));
+}
+
+function derivarCampoComun(discos, campo) {
+  const valores = discos
+    .map(disco => (disco[campo] || "").trim())
+    .filter(Boolean);
+
+  if (valores.length === 0) return "";
+
+  return valores[0];
+}
+
+function derivarFechaDump(discos) {
+  const fechas = discos
+    .map(disco => (disco.fecha_dump || "").trim())
+    .filter(Boolean)
+    .sort();
+
+  return fechas.at(-1) || "";
+}
+
+function derivarHashSha256(discos) {
+  const hashes = discos
+    .map(disco => (disco.hash_sha256 || "").trim())
+    .filter(Boolean);
+
+  return hashes.length === 1 ? hashes[0] : "";
+}
+
+function derivarEstadoCompatibilidad(discos) {
+  const estados = discos
+    .map(disco => normalizarTexto(disco.estado_compatibilidad))
+    .filter(Boolean);
+
+  if (estados.includes("solo_legacy")) return "solo_legacy";
+  if (estados.includes("requiere_ajustes")) return "requiere_ajustes";
+  if (estados.includes("no_probado")) return "no_probado";
+  if (estados.includes("ok_moderno")) return "ok_moderno";
+
+  return "no_probado";
 }
 
 function derivarNotasResumen(discos) {
@@ -131,34 +174,9 @@ function derivarNotasResumen(discos) {
 }
 
 function normalizarTexto(valor) {
-  if (!valor) return "";
-  // Pasamos a string, quitamos comillas y espacios
-  let v = String(valor).trim().toLowerCase();
-
-  // Normalizamos acentos rotos típicos de CSV mal codificado
-  v = v.replace("á", "a")
-       .replace("é", "e")
-       .replace("í", "i")
-       .replace("ó", "o")
-       .replace("ú", "u")
-       .replace("�", "i"); // el caracter raro típico en "S�"
-
-  return v;
+  return String(valor || "").trim().toLowerCase();
 }
 
 function esSi(valor) {
-  const v = normalizarTexto(valor);
-  // admite "si", "sí", "s"
-  return v === "si" || v === "sí" || v === "s";
+  return normalizarTexto(valor) === "si";
 }
-
-const juego = {
-  titulo: base.titulo,
-  plataforma: base.plataforma,
-  tipo_soporte: base.tipo_soporte,
-  num_discos: base.num_discos,
-  discos,
-  estadoDump: derivarEstadoDump(discos),
-  hashVerificado: derivarHashVerificado(discos),
-  notasResumen: derivarNotasResumen(discos)
-};

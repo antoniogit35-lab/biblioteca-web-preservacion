@@ -315,3 +315,14 @@ footer {
   .meta { grid-template-columns: 1fr; }
   .card-top { flex-direction: column; }
 }
+
+.empty-state {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+  background: var(--panel);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}

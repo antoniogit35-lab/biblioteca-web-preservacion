@@ -26,88 +26,93 @@
     <main>
       <section class="toolbar">
         <div class="search-box">
-          <input type="text" placeholder="Buscar por título o notas..." disabled />
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Buscar por título o notas..."
+            aria-label="Buscar por título o notas"
+          />
         </div>
 
         <div class="filters" aria-label="Filtros por plataforma">
-          <button class="filter-btn filter-card active">
+          <button class="filter-btn filter-card active" data-platform="todos">
             <span class="filter-icon">
               <img src="assets/img/platforms/all.svg" alt="" aria-hidden="true" />
             </span>
             <span>Todos</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="PC">
             <span class="filter-icon">
               <img src="assets/img/platforms/pc.png" alt="" aria-hidden="true" />
             </span>
             <span>PC</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="PS1">
             <span class="filter-icon">
               <img src="assets/img/platforms/ps1.png" alt="" aria-hidden="true" />
             </span>
             <span>PS1</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card"data-platform="PS2">
             <span class="filter-icon">
               <img src="assets/img/platforms/ps2.png" alt="" aria-hidden="true" />
             </span>
             <span>PS2</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="PS3">
             <span class="filter-icon">
               <img src="assets/img/platforms/ps3.png" alt="" aria-hidden="true" />
             </span>
             <span>PS3</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card"data-platform="PS4">
             <span class="filter-icon">
               <img src="assets/img/platforms/ps4.png" alt="" aria-hidden="true" />
             </span>
             <span>PS4</span>
           </button>
           
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="PSP">
             <span class="filter-icon">
               <img src="assets/img/platforms/psp.png" alt="" aria-hidden="true" />
             </span>
             <span>PSP</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="GameBoy">
             <span class="filter-icon">
               <img src="assets/img/platforms/gameboy.png" alt="" aria-hidden="true" />
             </span>
             <span>GameBoy</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="GameCube">
             <span class="filter-icon">
               <img src="assets/img/platforms/gamecube.png" alt="" aria-hidden="true" />
             </span>
             <span>GameCube</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="DS">
             <span class="filter-icon">
               <img src="assets/img/platforms/ds.png" alt="" aria-hidden="true" />
             </span>
             <span>DS</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="3DS">
             <span class="filter-icon">
               <img src="assets/img/platforms/3ds.png" alt="" aria-hidden="true" />
             </span>
             <span>3DS</span>
           </button>
 
-          <button class="filter-btn filter-card">
+          <button class="filter-btn filter-card" data-platform="Wii">
             <span class="filter-icon">
               <img src="assets/img/platforms/wii.png" alt="" aria-hidden="true" />
             </span>
@@ -143,9 +148,6 @@
       </section>
     </main>
 
-    <footer>
-      Maqueta estática revisada para cerrar la versión visual antes de conectar la biblioteca al CSV real.
-    </footer>
   </div>
 <script src="assets/js/catalogo.js"></script>
 <script src="assets/js/ui.js"></script>

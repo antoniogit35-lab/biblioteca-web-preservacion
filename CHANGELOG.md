@@ -13,6 +13,36 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Ver solo dumps fallidos o pendientes.
 - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
 - Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
+  
+## [v0.3.0] - 2026-08-19
+
+### Añadido
+- Implementados filtros por plataforma (PC, PS1, PS2, PS3, PS4, PSP, GameBoy, GameCube, DS, 3DS, Wii).
+- Implementada búsqueda en tiempo real por título y notas.
+- Añadido estado vacío con mensaje cuando no hay resultados.
+- Añadidas variables de estado centralizado en `ui.js` para filtros y búsqueda.
+- Añadido atributo `data-platform` a los botones de filtro en `index.html`.
+
+### Cambiado
+- Simplificado y reordenado el esquema de `metadata/catalogo_videojuegos.csv`.
+- Eliminadas las columnas `serial`, `tengo_fisico`, `ruta_archivo` y `emulador_usado`.
+- Reorganizadas las columnas por identidad, soporte físico, dump, integridad, pruebas y notas.
+- Consolidado `emulador_probado` como único campo para registrar el entorno de prueba.
+- Reescrito `catalogo.js` para usar el nuevo esquema del CSV y derivar campos compuestos.
+- Implementadas funciones de derivación: `derivarEstadoDump`, `derivarHashVerificado`, `derivarEstadoCompatibilidad`, `derivarNotasResumen`.
+- Actualizado `ui.js` para usar el modelo de datos unificado y renderizar tarjetas con información derivada.
+- Eliminada maqueta estática y footer informativo de `index.html`.
+- Input de búsqueda habilitado y conectado a la lógica de filtrado.
+
+### Corregido
+- Eliminada lógica obsoleta en `catalogo.js` que causaba errores de referencia.
+- Corregida la agrupación de juegos multidisco para evitar duplicados.
+- Corregida la detección de separador CSV para usar `;` como estándar del proyecto.
+
+### Notas
+- Primera versión funcional con catálogo real: 45 juegos importados con portadas y metadatos completos.
+- Los filtros y la búsqueda funcionan de forma acumulativa.
+- El estado de dump, hash verificado y compatibilidad se derivan automáticamente del CSV.
 
 ## [v0.2.2] - 2026-08-02
 

@@ -12,8 +12,10 @@
 1. Abrir **IsoBuster**.
 2. Seleccionar la unidad del lector donde está insertado el disco.
 3. Crear un archivo de imagen del disco completo.
-4. Elegir la ruta y el nombre siguiendo el esquema del proyecto.
-   - Ejemplo: `D:\PreservacionJuegos\Juegos\PC\Ford Racing 2 (2003)\Ford Racing 2.iso`
+4. Elegir una carpeta y un nombre siguiendo el esquema local del proyecto.
+   - La ruta se conserva solo en el almacenamiento local y no se añade al CSV ni al repositorio.
+   - Ejemplo local:
+     `D:\PreservacionJuegos\Juegos\PC\Ford Racing 2 (2003)\Ford Racing 2.iso`
 5. Usar **ISO** como formato principal cuando sea posible.
 6. Si el programa genera también un archivo `.cue`, conservarlo junto al `.iso`.
 7. Si aparece un error de sector ilegible:
@@ -38,27 +40,26 @@ Añadir en `notas` cualquier detalle importante:
 
 ## 4. Rellenar el catálogo
 
-Para cada juego o disco, completar como mínimo:
+Para cada juego o soporte, completar como mínimo:
 
 - `id`
 - `titulo`
+- `anio`
 - `plataforma`
+- `portada`
 - `tipo_soporte`
 - `num_discos`
 - `disco_indice`
 - `region`
-- `serial`
-- `tengo_fisico`
 - `estado_soporte`
 - `dumpeado`
-- `ruta_archivo`
-- `tamano_bytes`
 - `estado_dump`
+- `fecha_dump`
+- `tamano_bytes`
+- `hash_verificado`
 - `hash_sha256`
 - `emulador_probado`
 - `estado_compatibilidad`
-- `fecha_dump`
-- `hash_verificado`
 - `notas`
 
 ## 5. Guardar el tamaño correcto
@@ -132,7 +133,7 @@ Cuando el juego ya esté dumpeado, hasheado y probado, revisar que tenga:
 Flujo recomendado para cada disco:
 
 1. Revisar estado físico.
-2. Crear imagen con IsoBuster.
+2. Crear imagen con IsoBuster/IMGBurn.
 3. Rellenar el catálogo.
 4. Guardar el tamaño correcto.
 5. Calcular SHA-256.

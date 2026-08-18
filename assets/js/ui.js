@@ -1,10 +1,72 @@
+let todosLosJuegos = [];
+let plataformaActiva = "todos";
+let terminoBusqueda = "";
+
 async function inicializarBiblioteca() {
   const registrosDiscos = await cargarCatalogoCSV();
-  const juegos = agruparPorJuego(registrosDiscos);
+  todosLosJuegos = agruparPorJuego(registrosDiscos);
 
-  actualizarEstadisticas(juegos);
-  renderizarJuegos(juegos);
-  // Más adelante: activar filtros, búsqueda, etc.
+  configurarFiltrosPlataforma();
+  configurarBusqueda();
+  actualizarVista();
+}
+
+function actualizarVista() {
+  const juegosFiltrados = filtrarJuegos(
+    todosLosJuegos,
+    plataformaActiva,
+    terminoBusqueda
+  );
+
+  actualizarEstadisticas(juegosFiltrados);
+  renderizarJuegos(juegosFiltrados);
+}
+
+function filtrarJuegos(juegos, plataforma, busqueda) {
+  const termino = busqueda.trim().toLowerCase();
+
+  return juegos.filter(juego => {
+    const coincidePlataforma =
+      plataforma === "todos" || juego.plataforma === plataforma;
+
+    const contenidoBuscable = [
+      juego.titulo,
+      juego.notasResumen
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    const coincideBusqueda =
+      termino === "" || contenidoBuscable.includes(termino);
+
+    return coincidePlataforma && coincideBusqueda;
+  });
+}
+
+function configurarFiltrosPlataforma() {
+  const botones = document.querySelectorAll("[data-platform]");
+
+  botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+      plataformaActiva = boton.dataset.platform;
+
+      botones.forEach(b => b.classList.remove("active"));
+      boton.classList.add("active");
+
+      actualizarVista();
+    });
+  });
+}
+
+function configurarBusqueda() {
+  const input = document.getElementById("search-input");
+  if (!input) return;
+
+  input.addEventListener("input", evento => {
+    terminoBusqueda = evento.target.value;
+    actualizarVista();
+  });
 }
 
 function actualizarEstadisticas(juegos) {
@@ -31,6 +93,16 @@ function renderizarJuegos(juegos) {
   if (!grid) return;
 
   grid.innerHTML = "";
+
+  if (juegos.length === 0) {
+    const mensaje = document.createElement("p");
+    mensaje.className = "empty-state";
+    mensaje.textContent =
+      "No hay juegos que coincidan con la búsqueda o el filtro seleccionado.";
+
+    grid.appendChild(mensaje);
+    return;
+  }
 
   juegos.forEach(juego => {
     const card = crearTarjetaJuego(juego);
@@ -100,11 +172,21 @@ function crearTarjetaJuego(juego) {
   const meta = document.createElement("div");
   meta.className = "meta";
 
+  const esPC = juego.plataforma === "PC";
+
   const m1 = document.createElement("div");
   const m1Label = document.createElement("span");
-  m1Label.textContent = "Tipo de soporte";
+
+  m1Label.textContent = esPC ? "Compatibilidad" : "Emulador probado";
+
   m1.appendChild(m1Label);
-  m1.appendChild(document.createTextNode(juego.tipo_soporte || "N/A"));
+  m1.appendChild(
+    document.createTextNode(
+      esPC
+        ? describirCompatibilidad(juego.estadoCompatibilidad)
+        : juego.emuladorProbado || "No probado"
+    )
+  );
 
   const m2 = document.createElement("div");
   const m2Label = document.createElement("span");
@@ -167,6 +249,17 @@ function describirEstadoDump(estadoDump) {
     case "pendiente":
     default: return "Dump aún no iniciado";
   }
+}
+
+function describirCompatibilidad(estado) {
+  const textos = {
+    ok_moderno: "Funciona en sistema actual",
+    requiere_ajustes: "Requiere ajustes",
+    solo_legacy: "Solo entorno legacy",
+    no_probado: "No probado"
+  };
+
+  return textos[estado] || "No probado";
 }
 
 document.addEventListener("DOMContentLoaded", inicializarBiblioteca);
