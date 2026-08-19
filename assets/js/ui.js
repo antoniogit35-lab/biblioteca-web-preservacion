@@ -18,8 +18,17 @@ function actualizarVista() {
     terminoBusqueda
   );
 
+  actualizarResumenCabecera();
   actualizarEstadisticas(juegosFiltrados);
   renderizarJuegos(juegosFiltrados);
+}
+
+function actualizarResumenCabecera() {
+  const contador = document.getElementById("hero-game-count");
+  if (!contador) return;
+
+  const cantidad = todosLosJuegos.length;
+  contador.textContent = `${cantidad} juego${cantidad === 1 ? "" : "s"}`; // Con esto siempre muestra el total aunque haya filtro
 }
 
 function filtrarJuegos(juegos, plataforma, busqueda) {
@@ -111,13 +120,11 @@ function renderizarJuegos(juegos) {
 }
 
 function crearTarjetaJuego(juego) {
-  const artículo = document.createElement("article");
-  artículo.className = "card";
+  const articulo = document.createElement("article");
+  articulo.className = "card";
 
-  const estadoDump = juego.estadoDump; // "ok" | "pendiente" | "fallido" | "parcial"
-  const badgeInfo = obtenerBadgeInfo(estadoDump);
+  const badgeInfo = obtenerBadgeInfo(juego.estadoDump);
 
-  // Header
   const header = document.createElement("div");
   header.className = "card-header";
 
@@ -129,12 +136,9 @@ function crearTarjetaJuego(juego) {
 
   const subtitle = document.createElement("div");
   subtitle.className = "subtitle";
- 
-  if (juego.anio) {
-    subtitle.textContent = `${juego.plataforma} · ${juego.anio}`;
-  } else {
-    subtitle.textContent = `${juego.plataforma}`;
-  }
+  subtitle.textContent = juego.anio
+    ? `${juego.plataforma} · ${juego.anio}`
+    : juego.plataforma;
 
   titleBlock.appendChild(h2);
   titleBlock.appendChild(subtitle);
@@ -146,7 +150,6 @@ function crearTarjetaJuego(juego) {
   header.appendChild(titleBlock);
   header.appendChild(badge);
 
-  // Portada (placeholder por ahora)
   const coverFrame = document.createElement("div");
   coverFrame.className = "cover-frame";
 
@@ -159,72 +162,116 @@ function crearTarjetaJuego(juego) {
 
   const seed = encodeURIComponent(`${juego.titulo}-${juego.plataforma}`);
 
-  if (juego.portada) {
-    img.src = `assets/img/frontpages/${juego.portada}.png`;
-  } else {
-    img.src = `https://picsum.photos/seed/${seed}/300/420`;
-  }
+  img.src = juego.portada
+    ? `assets/img/frontpages/${juego.portada}.png`
+    : `https://picsum.photos/seed/${seed}/300/420`;
   
 
   coverFrame.appendChild(img);
 
-  // Meta: datos técnicos básicos derivados del CSV
   const meta = document.createElement("div");
   meta.className = "meta";
 
   const esPC = juego.plataforma === "PC";
 
-  const m1 = document.createElement("div");
-  const m1Label = document.createElement("span");
+  meta.appendChild(crearDatoMeta(
+    esPC ? "Compatibilidad" : "Emulador probado",
+    esPC
+      ? describirCompatibilidad(juego.estadoCompatibilidad)
+      : juego.emuladorProbado || "No probado"
+  ));
 
-  m1Label.textContent = esPC ? "Compatibilidad" : "Emulador probado";
+  meta.appendChild(crearDatoHash(juego));
 
-  m1.appendChild(m1Label);
-  m1.appendChild(
-    document.createTextNode(
-      esPC
-        ? describirCompatibilidad(juego.estadoCompatibilidad)
-        : juego.emuladorProbado || "No probado"
-    )
-  );
-
-  const m2 = document.createElement("div");
-  const m2Label = document.createElement("span");
-  m2Label.textContent = "Número de discos";
-  m2.appendChild(m2Label);
-  m2.appendChild(document.createTextNode(String(juego.num_discos || juego.discos.length)));
-
-  const m3 = document.createElement("div");
-  const m3Label = document.createElement("span");
-  m3Label.textContent = "Hash verificado";
-  m3.appendChild(m3Label);
-  m3.appendChild(document.createTextNode(juego.hashVerificado ? "Sí" : "No"));
-
-  const m4 = document.createElement("div");
-  const m4Label = document.createElement("span");
-  m4Label.textContent = "Estado dump (agr.)";
-  m4.appendChild(m4Label);
-  m4.appendChild(document.createTextNode(describirEstadoDump(juego.estadoDump)));
-
-  meta.appendChild(m1);
-  meta.appendChild(m2);
-  meta.appendChild(m3);
-  meta.appendChild(m4);
-
-  // Notas
-  const notes = document.createElement("div");
-  notes.className = "notes";
-  notes.textContent =
-    juego.notasResumen ||
-    "Sin notas aún en el catálogo. Añádelas en el CSV/ODS para verlas aquí.";
+  const notes = crearNotas(juego.notasResumen);
 
   // Montar tarjeta
-  artículo.appendChild(header);
-  artículo.appendChild(coverFrame);
-  artículo.appendChild(meta);
-  artículo.appendChild(notes);
+  articulo.appendChild(header);
+  articulo.appendChild(coverFrame);
+  articulo.appendChild(meta);
+  articulo.appendChild(notes);
 
-  return artículo;
+  return articulo;
+}
+
+function crearDatoMeta(etiqueta, valor) {
+  const contenedor = document.createElement("div");
+
+  const label = document.createElement("span");
+  label.textContent = etiqueta;
+
+  contenedor.appendChild(label);
+  contenedor.appendChild(document.createTextNode(valor));
+
+  return contenedor;
+}
+
+function crearDatoHash(juego){
+  const contenedor = document.createElement("div");
+
+  const label = document.createElement("span");
+  label.textContent = "Hash verificado";
+
+  const contenido = document.createElement("div");
+  contenido.className = "hash-value";
+  contenido.appendChild(
+    document.createTextNode(juego.hashVerificado ? "Sí" : "No")
+  );
+
+  if (juego.hashSha256) {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "copy-hash";
+    boton.textContent = "Copiar";
+    boton.title = "Copiar SHA-256";
+
+    boton.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(juego.hashSha256);
+        boton.textContent = "Copiado";
+        setTimeout (() => {
+          boton.textContent = "Copiar";
+        }, 1500);
+      } catch (error) {
+        console.error("No se pudo copiar el hash", error);
+      }
+    });
+
+    contenido.appendChild(boton);
+  }
+
+  contenedor.appendChild(label);
+  contenedor.appendChild(contenido);
+
+  return contenedor;
+}
+
+function crearNotas(texto) {
+  const notas = document.createElement("div");
+  notas.className = "notes";
+
+  const textoNotas = document.createElement("div");
+  textoNotas.className = "notes-text";
+  textoNotas.textContent =
+    texto || "Sin notas aún en el catálogo.";
+
+  notas.appendChild(textoNotas);
+
+  if (texto && texto.length > 90) {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "notes-toggle";
+    boton.textContent = "Mostrar más";
+
+    boton.addEventListener("click", () => {
+      const expandida = notas.classList.toggle("expanded");
+      boton.textContent = expandida ? "Mostrar menos" : "Mostrar más";
+    });
+
+    notas.appendChild(boton);
+  }
+
+  return notas;
 }
 
 function obtenerBadgeInfo(estadoDump) {
@@ -238,16 +285,6 @@ function obtenerBadgeInfo(estadoDump) {
     case "pendiente":
     default:
       return { clase: "badge-warn", texto: "Dump pendiente" };
-  }
-}
-
-function describirEstadoDump(estadoDump) {
-  switch (estadoDump) {
-    case "ok": return "Todos los discos dumpeados correctamente";
-    case "fallido": return "Algún disco con problemas o errores";
-    case "parcial": return "Algunos discos dumpeados, otros pendientes";
-    case "pendiente":
-    default: return "Dump aún no iniciado";
   }
 }
 

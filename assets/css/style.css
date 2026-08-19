@@ -278,26 +278,63 @@ h1 {
   margin-bottom: 4px;
 }
 
+.hash-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copy-hash {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.copy-hash:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
 .notes {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.55;
-  background: rgba(255,255,255,0.02);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px dashed var(--border);
   padding: 12px;
   border-radius: 12px;
 }
 
-footer {
-  padding: 24px 0 40px;
-  color: var(--muted);
-  font-size: 0.9rem;
+.notes-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
-@media (max-width: 900px) {
-  .card {
-    grid-template-columns: 112px minmax(0, 1fr);
-  }
+.notes.expanded .notes-text {
+  display: block
+}
+
+.notes-toggle {
+  display: block;
+  margin-top: 8px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.notes-toggle:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {

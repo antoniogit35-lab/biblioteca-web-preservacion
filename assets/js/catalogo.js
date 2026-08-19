@@ -101,7 +101,6 @@ function agruparPorJuego(registrosDiscos) {
   return juegos;
 }
 
-// Derivaciones de estado muy sencillas basadas en el CSV actual
 function derivarEstadoDump(discos) {
   // estado_dump: OK, OK_con_avisos, fallido, no_intentado (según tu checklist)
   const estados = discos.map(d => normalizarTexto(d.estado_dump));

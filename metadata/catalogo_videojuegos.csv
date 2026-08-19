@@ -2,25 +2,25 @@ id;titulo;anio;plataforma;portada;tipo_soporte;num_discos;disco_indice;region;es
 COD1-PC-1;Call of Duty;2003;PC;call-of-duty-1;CD;2;1;;Perfecto estado;no;fallido;;;no;;;requiere_ajustes;"Instalación muy lenta (34 min) desde CD físico; modo 1 jugador no arranca por eliminación de soporte DRM en Windows moderno."
 COD1-PC-2;Call of Duty;2003;PC;call-of-duty-1;CD;2;2;;Perfecto estado;no;no_intentado;;;no;;;requiere_ajustes;"Instalación muy lenta (34 min) desde CD físico; modo 1 jugador no arranca por eliminación de soporte DRM en Windows moderno."
 FORDR2-PC;Ford Racing 2;2003;PC;ford-racing-2;CD;1;1;Europa;Algo rallado;si;OK;2026-07-31;263206912;si;F0176079258357D5A0743892B9E853C86ACB2B7F407CC1E007D86DFC29E80DC8;Montado ISO en Windows 11;requiere_ajustes;Iso acompañada de CUE, Instala y arranca desde la ISO. Error 'WMA:347 Failed to create the wma_source_filter' en Windows moderno (problema de DirectShow/WMA).
-CRASHTR-PS1;Crash Team Racing;1999;PS1;crash-team-racing;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-02;336403801;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-CRASHBASH-PS1;Crash Bash;2000;PS1;crash-bash;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-10;221868864;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
+CRASHTR-PS1;Crash Team Racing;1999;PS1;crash-team-racing;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-02;336403801;no;;Duckstation;OK_moderno;Funciona correctamente
+CRASHBASH-PS1;Crash Bash;2000;PS1;crash-bash;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-10;221868864;no;;Duckstation;OK_moderno;Funciona correctamente
 CRASH1-PS1;Crash Bandicoot;1996;PS1;crash-1;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-02;629623344;no;;Duckstation;requiere_ajustes;Actualmente en los bordes de la pantalla parece como que no llegase a cargar, es necesario comprobar si es culpa de jugar en 1080 o por alguna mala configuración del emulador
 CRASH2-PS1;Crash Bandicoot 2;1997;PS1;crash-2;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-02;259602000;no;;Duckstation;requiere_ajustes;Actualmente en los bordes de la pantalla parece como que no llegase a cargar, es necesario comprobar si es culpa de jugar en 1080 o por alguna mala configuración del emulador
 CRASH3-PS1;Crash Bandicoot 3;1998;PS1;crash-3;CD;1;1;Europa;Muy rallado;si;OK;2026-08-02;344713824;no;;Duckstation;requiere_ajustes;Actualmente en los bordes de la pantalla parece como que no llegase a cargar, es necesario comprobar si es culpa de jugar en 1080 o por alguna mala configuración del emulador
-TEKKEN3-PS1;Tekken 3;1997;PS1;tekken-3;CD;1;1;Europa;Muy rallado;si;OK;2026-08-02;688275168;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
+TEKKEN3-PS1;Tekken 3;1997;PS1;tekken-3;CD;1;1;Europa;Muy rallado;si;OK;2026-08-02;688275168;no;;Duckstation;OK_moderno;Funciona correctamente
 BUGSBUNNY-TIEMPO-PS1;Bugs Bunny: Perdido en el tiempo;1999;PS1;bugs-bunny-tiempo;CD;1;1;Europa;Algo rallado;si;OK;2026-08-02;625199232;no;;Duckstation;OK_moderno;A falta de un testeo más extensivo el juego funciona correctamente
 SUPERNENAS-PS1;Las Super Nenas Extra-Acción Química;2001;PS1;supernenas;CD;1;1;Europa;Muy rallado;si;OK;2026-08-03;351840256;no;;Duckstation;requiere_ajustes;A la hora de hacer el dump generó también 10 archivos .wav que se corresponden a la música del juego, pero a la hora de ejecutar el juego en el emulador no se escucha dicha música
-2002WORLDCUP-PS1;2002 FIFA World Cup;2002;PS1;2002worldcup;CD;1;1;España;Algo rallado;si;OK;2026-08-05;561695232;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-BUSBUNNYTAZ-PS1;Bugs Bunny y Taz: La Espiral del Tiempo;2000;PS1;bugsbunnytaz;CD;1;1;Europa;Algo rallado;si;OK;2026-08-10;678053376;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-COOLBOARDERS3-PS1;Cool Boarders 3;1998;PS1;coolboarders3;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;383571216;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-DEMODISC02-PS1;Demo Disc 02;1995;PS1;demodisc02;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;598779216;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
+2002WORLDCUP-PS1;2002 FIFA World Cup;2002;PS1;2002worldcup;CD;1;1;España;Algo rallado;si;OK;2026-08-05;561695232;no;;Duckstation;OK_moderno;Funciona correctamente
+BUSBUNNYTAZ-PS1;Bugs Bunny y Taz: La Espiral del Tiempo;2000;PS1;bugsbunnytaz;CD;1;1;Europa;Algo rallado;si;OK;2026-08-10;678053376;no;;Duckstation;OK_moderno;Funciona correctamente
+COOLBOARDERS3-PS1;Cool Boarders 3;1998;PS1;coolboarders3;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;383571216;no;;Duckstation;OK_moderno;Funciona correctamente
+DEMODISC02-PS1;Demo Disc 02;1995;PS1;demodisc02;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;598779216;no;;Duckstation;OK_moderno;Funciona correctamente
 DRAGONBALLFB-PS1;Dragon Ball Final Bout;1997;PS1;dbfinalbout;CD;1;1;Europa;Bastante rallado;no;fallido;;;no;;;no_probado;Falla al hacer el dump
-HERCULES-PS1;Hercules;1997;PS1;hercules;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;400634976;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-MONSTRUOSSA-PS1;Monstruos SA: La Isla de los Sustos;2001;PS1;monstruossa;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;735980784;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-SPIDERMAN2-PS1;Spiderman 2: Enter Electro;2001;PS1;spiderman2;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;721558320;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-SUPERCROSS-PS1;Super Cross;2001;PS1;supercross;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;334254480;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-TONYHAWK2-PS1;Tony Hawk pro Skater 2;2001;PS1;tonyhawk2;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;747891312;no;;Duckstation;OK_moderno;Funciona perfectamente y sin fallos
-102DALMATAS-PS1;102 Dálmatas: Cachorros al rescate;2000;PC;102dalmatas;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;604018688;no;;Montado ISO en Windows 11;OK_moderno;Funciona perfectamente y sin fallos
+HERCULES-PS1;Hercules;1997;PS1;hercules;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;400634976;no;;Duckstation;OK_moderno;Funciona correctamente
+MONSTRUOSSA-PS1;Monstruos SA: La Isla de los Sustos;2001;PS1;monstruossa;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;735980784;no;;Duckstation;OK_moderno;Funciona correctamente
+SPIDERMAN2-PS1;Spiderman 2: Enter Electro;2001;PS1;spiderman2;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;721558320;no;;Duckstation;OK_moderno;Funciona correctamente
+SUPERCROSS-PS1;Super Cross;2001;PS1;supercross;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;334254480;no;;Duckstation;OK_moderno;Funciona correctamente
+TONYHAWK2-PS1;Tony Hawk pro Skater 2;2001;PS1;tonyhawk2;CD;1;1;Europa;Bastante rallado;si;OK;2026-08-11;747891312;no;;Duckstation;OK_moderno;Funciona correctamente
+102DALMATAS-PS1;102 Dálmatas: Cachorros al rescate;2000;PC;102dalmatas;CD;1;1;Europa;Algo rallado;si;OK;2026-08-11;604018688;no;;Montado ISO en Windows 11;OK_moderno;Funciona correctamente
 BURNOUTPARADISE-PC;Burnout Paradise;2008;PC;burnoutparadise;CD;1;1;Europa;Algo rallado;si;OK;2026-08-12;3206021120;no;;;;
 COD2-PC;Call of Duty 2;2005;PC;cod2;CD;1;1;Europa;Algo rallado;si;OK;2026-08-12;3742007296;no;;;;
 GTASANANDREAS-PC;Grand Theft Auto San Andreas;2004;PC;sanandreas;CD;1;1;Europa;Algo rallado;si;OK;2026-08-12;4231430144;no;;;;

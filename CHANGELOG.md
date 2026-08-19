@@ -5,14 +5,27 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 ## [Unreleased]
 
 ### Pendiente
-- Añadir soporte de portadas por juego usando imágenes locales en `assets/img/frontpages` y un campo dedicado en el catálogo.
-- Implementar filtros interactivos por plataforma en la barra superior (PC, PS2, PS3, etc.) conectados a los datos reales.
-- Activar la búsqueda por título y notas sobre el catálogo cargado en memoria.
 - Incorporar filtros por estado de preservación basados en `estado_dump` y `estado_compatibilidad`:
 - Ver solo dumps correctos (`OK`, `OK_con_avisos`).
 - Ver solo dumps fallidos o pendientes.
 - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
 - Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
+
+## [v0.3.1] - 2026-08-19
+
+### Añadido
+- Añadido contador dinámico del total de juegos en la cabecera.
+- Añadido botón para copiar el hash SHA-256 cuando está disponible.
+- Añadido truncado de notas a dos líneas con controles `Mostrar más` y `Mostrar menos`.
+
+### Cambiado
+- Actualizado el resumen de cabecera para mostrar el total real cargado desde el CSV y mantener 11 plataformas.
+- Simplificadas las tarjetas de juego eliminando los campos `Número de discos` y `Estado dump (agr.)`.
+- Mejorada la presentación del estado de hash verificado.
+- Limpiadas reglas CSS obsoletas del footer y de una media query sin efecto.
+
+### Corregido
+- Ajustada la compatibilidad de `line-clamp` en las notas.
   
 ## [v0.3.0] - 2026-08-19
 
