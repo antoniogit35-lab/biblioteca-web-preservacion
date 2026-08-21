@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/assets/img/logo-biblioteca.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Biblioteca de juegos</title>
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -141,10 +142,13 @@
       </section>
 
       <section>
-        <h2 class="section-title">Juegos de ejemplo</h2>
-        <div class="grid" id="games-grid">
-          <!-- Las tarjetas se generan con JS -->
-        </div>
+        <h2 class="section-title">Juegos catalogados</h2>
+
+        <p id="results-count" class="results-count" aria-live="polite">
+          Mostrando 0 de 0 juegos
+        </p>
+
+        <div class="grid" id="games-grid"></div>
       </section>
     </main>
 

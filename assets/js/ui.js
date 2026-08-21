@@ -19,6 +19,7 @@ function actualizarVista() {
   );
 
   actualizarResumenCabecera();
+  actualizarContadorResultados(juegosFiltrados);
   actualizarEstadisticas(juegosFiltrados);
   renderizarJuegos(juegosFiltrados);
 }
@@ -29,6 +30,17 @@ function actualizarResumenCabecera() {
 
   const cantidad = todosLosJuegos.length;
   contador.textContent = `${cantidad} juego${cantidad === 1 ? "" : "s"}`; // Con esto siempre muestra el total aunque haya filtro
+}
+
+function actualizarContadorResultados(juegos) {
+  const contador = document.getElementById("results-count");
+  if (!contador) return;
+
+  const visibles = juegos.length;
+  const total = todosLosJuegos.length;
+
+  contador.textContent =
+    `Mostrando ${visibles} de ${total} juego${total === 1 ? "" : "s"}`;
 }
 
 function filtrarJuegos(juegos, plataforma, busqueda) {
@@ -72,9 +84,18 @@ function configurarBusqueda() {
   const input = document.getElementById("search-input");
   if (!input) return;
 
-  input.addEventListener("input", evento => {
-    terminoBusqueda = evento.target.value;
+  input.addEventListener("input", () => {
+    terminoBusqueda = input.value.trim().toLowerCase();
     actualizarVista();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      input.value = "";
+      terminoBusqueda = "";
+      actualizarVista();
+      input.focus();
+    }
   });
 }
 

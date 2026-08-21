@@ -5,11 +5,38 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 ## [Unreleased]
 
 ### Pendiente
+
 - Incorporar filtros por estado de preservación basados en `estado_dump` y `estado_compatibilidad`:
-- Ver solo dumps correctos (`OK`, `OK_con_avisos`).
-- Ver solo dumps fallidos o pendientes.
-- Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
-- Ajustar y pulir pequeños detalles visuales y de copia en la interfaz (versiones 0.3.x).
+  - Ver solo dumps correctos (`OK`, `OK_con_avisos`).
+  - Ver solo dumps fallidos o pendientes.
+  - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
+- Añadir el logotipo de la biblioteca (`assets/img/logo-biblioteca.png`) a la interfaz, valorando su ubicación en el espacio disponible de la cabecera o en una futura sección dedicada al HDD.
+- Diseñar una sección para catalogar y consultar el contenido del HDD, manteniendo una estructura coherente con la biblioteca de juegos físicos.
+- Valorar una variante simplificada del favicon/logotipo para mejorar su legibilidad a tamaños muy reducidos.
+- Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
+- Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
+
+## [v0.3.2] - 2026-08-21
+
+### Añadido
+
+- Añadido favicon personalizado basado en la identidad visual de la biblioteca.
+- Incorporado el recurso `assets/img/logo-biblioteca.png` con fondo transparente, utilizado como favicon.
+- Conservada una versión alternativa con fondo blanco (`assets/img/favicon.png`) para posibles usos futuros.
+- Añadido contador de resultados bajo el título de la colección, con el formato “Mostrando X de Y juegos”.
+- Añadido `aria-live="polite"` al contador para anunciar los cambios de resultados a lectores de pantalla.
+- Añadido atajo de teclado `Escape` en el buscador para borrar la consulta y restaurar la vista completa.
+
+### Cambiado
+
+- Renombrada la sección “Juegos de ejemplo” como “Juegos catalogados”.
+- Ajustados los márgenes de la cabecera de sección para integrar el contador de resultados.
+- Añadido estilo de foco visible al buscador mediante borde de acento y halo suave, mejorando la navegación por teclado.
+
+### Accesibilidad
+
+- Mejorada la información dinámica de resultados para tecnologías de asistencia.
+- Mejorada la visibilidad del foco del buscador.
 
 ## [v0.3.1] - 2026-08-19
 
