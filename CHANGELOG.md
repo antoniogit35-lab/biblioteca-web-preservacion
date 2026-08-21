@@ -6,15 +6,37 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 
 ### Pendiente
 
-- Incorporar filtros por estado de preservación basados en `estado_dump` y `estado_compatibilidad`:
-  - Ver solo dumps correctos (`OK`, `OK_con_avisos`).
-  - Ver solo dumps fallidos o pendientes.
-  - Ver juegos que requieren ajustes o solo funcionan en entorno legacy.
 - Añadir el logotipo de la biblioteca (`assets/img/logo-biblioteca.png`) a la interfaz, valorando su ubicación en el espacio disponible de la cabecera o en una futura sección dedicada al HDD.
 - Diseñar una sección para catalogar y consultar el contenido del HDD, manteniendo una estructura coherente con la biblioteca de juegos físicos.
 - Valorar una variante simplificada del favicon/logotipo para mejorar su legibilidad a tamaños muy reducidos.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 - Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
+
+## [v0.4.0] - 2026-08-22
+
+### Añadido
+
+- Añadidos filtros avanzados acumulativos para revisar el catálogo por año, estado de dump, compatibilidad y estado de prueba de emulador.
+- Añadido selector de año generado dinámicamente a partir de los años disponibles en el catálogo.
+- Añadido filtro de estado de dump con opciones: `OK`, `OK con avisos`, `Parcial`, `Pendiente` y `Fallido`.
+- Añadido filtro de compatibilidad con opciones: funciona en sistema actual, requiere ajustes, solo entorno legacy y no probado.
+- Añadido filtro de prueba de emulador con opciones `Probado` y `No probado`.
+- Añadido botón para limpiar todos los filtros secundarios sin modificar la búsqueda ni el filtro de plataforma.
+- Añadido resumen visual de filtros activos bajo el contador de resultados.
+- Añadidos chips interactivos para eliminar individualmente filtros de plataforma, búsqueda y filtros avanzados.
+
+### Cambiado
+
+- Actualizada la derivación del estado de dump para diferenciar `OK_con_avisos` de `OK`.
+- Los juegos con `OK_con_avisos` muestran ahora el estado `Dump OK con avisos`.
+- Reorganizada la zona de filtros para incorporar el panel de filtros avanzados y sus controles adaptativos.
+- Actualizado el catálogo de pruebas con juegos, plataformas, años y estados variados para validar los filtros.
+
+### Accesibilidad
+
+- Añadidos nombres accesibles a los chips de filtros activos para comunicar la acción de eliminar cada filtro.
+- Mantenido foco visible en selects, botón de limpieza y chips.
+- Los filtros activos y el contador de resultados se actualizan dinámicamente mediante regiones `aria-live`.
 
 ## [v0.3.2] - 2026-08-21
 

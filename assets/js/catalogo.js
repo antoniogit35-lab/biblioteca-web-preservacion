@@ -102,22 +102,24 @@ function agruparPorJuego(registrosDiscos) {
 }
 
 function derivarEstadoDump(discos) {
-  // estado_dump: OK, OK_con_avisos, fallido, no_intentado (según tu checklist)
-  const estados = discos.map(d => normalizarTexto(d.estado_dump));
+  const estados = discos.map((disco) =>
+    normalizarTexto(disco.estado_dump)
+  );
 
-  if (estados.every(e => e === "ok" || e === "ok_con_avisos")) {
-    return "ok"; // Dump OK
-  }
-
-  if (estados.some(e => e === "fallido")) {
+  if (estados.some((estado) => estado === "fallido")) {
     return "fallido";
   }
 
-  if (estados.some(e => e === "ok" || e === "ok_con_avisos")) {
-    return "parcial";
+  if (estados.some((estado) => estado === "ok_con_avisos")) {
+    return "avisos";
   }
 
-  // no_intentado o vacío
+  if (estados.some((estado) => estado === "ok")) {
+    return estados.every((estado) => estado === "ok")
+      ? "ok"
+      : "parcial";
+  }
+
   return "pendiente";
 }
 

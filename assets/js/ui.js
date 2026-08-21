@@ -1,13 +1,21 @@
 let todosLosJuegos = [];
 let plataformaActiva = "todos";
 let terminoBusqueda = "";
+let filtrosAvanzados = {
+  anio: "todos",
+  dump: "todos",
+  compatibilidad: "todos",
+  emulador: "todos"
+};
 
 async function inicializarBiblioteca() {
   const registrosDiscos = await cargarCatalogoCSV();
   todosLosJuegos = agruparPorJuego(registrosDiscos);
 
   configurarFiltrosPlataforma();
+  configurarFiltrosAvanzados();
   configurarBusqueda();
+  rellenarFiltroAnios();
   actualizarVista();
 }
 
@@ -15,11 +23,169 @@ function actualizarVista() {
   const juegosFiltrados = filtrarJuegos(
     todosLosJuegos,
     plataformaActiva,
-    terminoBusqueda
+    terminoBusqueda,
+    filtrosAvanzados
   );
 
   actualizarResumenCabecera();
   actualizarContadorResultados(juegosFiltrados);
+
+  function actualizarFiltrosActivos() {
+    const contenedor = document.getElementById("active-filters");
+    if (!contenedor) return;
+
+    const filtros = obtenerFiltrosActivos();
+
+    contenedor.innerHTML = "";
+
+    if (filtros.length === 0) {
+      contenedor.hidden = true;
+      return;
+    }
+
+    contenedor.hidden = false;
+
+    const etiqueta = document.createElement("span");
+    etiqueta.className = "active-filters-label";
+    etiqueta.textContent = "Filtros activos:";
+    contenedor.appendChild(etiqueta);
+
+    filtros.forEach((filtro) => {
+      const chip = document.createElement("button");
+      chip.className = "active-filter-chip";
+      chip.type = "button";
+      chip.dataset.filterType = filtro.tipo;
+      chip.textContent = `${filtro.etiqueta} ×`;
+
+      chip.setAttribute(
+        "aria-label",
+        `Quitar filtro: ${filtro.etiqueta}`
+      );
+
+      chip.addEventListener("click", () => {
+        quitarFiltroActivo(filtro.tipo);
+      });
+
+      contenedor.appendChild(chip);
+    });
+  }
+
+  function obtenerFiltrosActivos() {
+    const filtros = [];
+
+    if (plataformaActiva !== "todos") {
+      filtros.push({
+        tipo: "plataforma",
+        etiqueta: plataformaActiva
+      });
+    }
+
+    if (terminoBusqueda) {
+      filtros.push({
+        tipo: "busqueda",
+        etiqueta: `Búsqueda: ${terminoBusqueda}`
+      });
+    }
+
+    if (filtrosAvanzados.anio !== "todos") {
+      filtros.push({
+        tipo: "anio",
+        etiqueta: filtrosAvanzados.anio
+      });
+    }
+
+    if (filtrosAvanzados.dump !== "todos") {
+      const etiquetasDump = {
+        ok: "Dump OK",
+        avisos: "Dump OK con avisos",
+        parcial: "Dump parcial",
+        pendiente: "Dump pendiente",
+        fallido: "Dump fallido"
+      };
+
+      filtros.push({
+        tipo: "dump",
+        etiqueta: etiquetasDump[filtrosAvanzados.dump]
+      });
+    }
+
+    if (filtrosAvanzados.compatibilidad !== "todos") {
+      const etiquetasCompatibilidad = {
+        ok_moderno: "Funciona en sistema actual",
+        requiere_ajustes: "Requiere ajustes",
+        solo_legacy: "Solo entorno legacy",
+        no_probado: "No probado"
+      };
+
+      filtros.push({
+        tipo: "compatibilidad",
+        etiqueta: etiquetasCompatibilidad[filtrosAvanzados.compatibilidad]
+      });
+    }
+
+    if (filtrosAvanzados.emulador !== "todos") {
+      filtros.push({
+        tipo: "emulador",
+        etiqueta:
+          filtrosAvanzados.emulador === "probado"
+            ? "Emulador probado"
+            : "Emulador no probado"
+      });
+    }
+
+    return filtros;
+  }
+
+  function quitarFiltroActivo(tipo) {
+    if (tipo === "plataforma") {
+      plataformaActiva = "todos";
+
+      document.querySelectorAll("[data-platform]").forEach((boton) => {
+        boton.classList.toggle(
+          "active",
+          boton.dataset.platform === "todos"
+        );
+      });
+    }
+
+    if (tipo === "busqueda") {
+      terminoBusqueda = "";
+
+      const buscador = document.getElementById("search-input");
+      if (buscador) buscador.value = "";
+    }
+
+    if (tipo === "anio") {
+      filtrosAvanzados.anio = "todos";
+
+      const selector = document.getElementById("filter-year");
+      if (selector) selector.value = "todos";
+    }
+
+    if (tipo === "dump") {
+      filtrosAvanzados.dump = "todos";
+
+      const selector = document.getElementById("filter-dump");
+      if (selector) selector.value = "todos";
+    }
+
+    if (tipo === "compatibilidad") {
+      filtrosAvanzados.compatibilidad = "todos";
+
+      const selector = document.getElementById("filter-compatibility");
+      if (selector) selector.value = "todos";
+    }
+
+    if (tipo === "emulador") {
+      filtrosAvanzados.emulador = "todos";
+
+      const selector = document.getElementById("filter-emulator");
+      if (selector) selector.value = "todos";
+    }
+
+    actualizarVista();
+  }
+  actualizarFiltrosActivos();
   actualizarEstadisticas(juegosFiltrados);
   renderizarJuegos(juegosFiltrados);
 }
@@ -43,12 +209,29 @@ function actualizarContadorResultados(juegos) {
     `Mostrando ${visibles} de ${total} juego${total === 1 ? "" : "s"}`;
 }
 
-function filtrarJuegos(juegos, plataforma, busqueda) {
+function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
   const termino = busqueda.trim().toLowerCase();
 
   return juegos.filter(juego => {
     const coincidePlataforma =
       plataforma === "todos" || juego.plataforma === plataforma;
+
+    const coincideAnio =
+      filtros.anio === "todos" || juego.anio === filtros.anio;
+
+    const coincideDump =
+      filtros.dump === "todos" || juego.estadoDump === filtros.dump;
+
+    const coincideCompatibilidad =
+      filtros.compatibilidad === "todos" ||
+      juego.estadoCompatibilidad === filtros.compatibilidad;
+
+    const tieneEmuladorProbado = Boolean(juego.emuladorProbado);
+
+    const coincideEmulador =
+      filtros.emulador === "todos" ||
+      (filtros.emulador === "probado" && tieneEmuladorProbado) ||
+      (filtros.emulador === "no_probado" && !tieneEmuladorProbado);
 
     const contenidoBuscable = [
       juego.titulo,
@@ -61,7 +244,12 @@ function filtrarJuegos(juegos, plataforma, busqueda) {
     const coincideBusqueda =
       termino === "" || contenidoBuscable.includes(termino);
 
-    return coincidePlataforma && coincideBusqueda;
+    return coincidePlataforma && 
+           coincideBusqueda && 
+           coincideAnio && 
+           coincideDump && 
+           coincideCompatibilidad && 
+           coincideEmulador
   });
 }
 
@@ -77,6 +265,59 @@ function configurarFiltrosPlataforma() {
 
       actualizarVista();
     });
+  });
+}
+
+function configurarFiltrosAvanzados() {
+  const controles = {
+    anio: document.getElementById("filter-year"),
+    dump: document.getElementById("filter-dump"),
+    compatibilidad: document.getElementById("filter-compatibility"),
+    emulador: document.getElementById("filter-emulator")
+  };
+
+  Object.entries(controles).forEach(([nombre, control]) => {
+    if (!control) return;
+
+    control.addEventListener("change", () => {
+      filtrosAvanzados[nombre] = control.value;
+      actualizarVista();
+    });
+  });
+
+  const botonLimpiar = document.getElementById("clear-advanced-filters");
+
+  if (botonLimpiar) {
+    botonLimpiar.addEventListener("click", () => {
+      filtrosAvanzados = {
+        anio: "todos",
+        dump: "todos",
+        compatibilidad: "todos",
+        emulador: "todos"
+      };
+
+      Object.values(controles).forEach((control) => {
+        if (control) control.value = "todos";
+      });
+
+      actualizarVista();
+    });
+  }
+}
+
+function rellenarFiltroAnios() {
+  const selector = document.getElementById("filter-year");
+  if (!selector) return;
+
+  const anios = [...new Set(todosLosJuegos.map((juego) => juego.anio))]
+    .filter(Boolean)
+    .sort((a, b) => Number(b) - Number(a));
+
+  anios.forEach((anio) => {
+    const opcion = document.createElement("option");
+    opcion.value = anio;
+    opcion.textContent = anio;
+    selector.appendChild(opcion);
   });
 }
 
@@ -299,6 +540,8 @@ function obtenerBadgeInfo(estadoDump) {
   switch (estadoDump) {
     case "ok":
       return { clase: "badge-ok", texto: "Dump OK" };
+    case "avisos":
+      return { clase: "badge-warn", texto: "Dump OK con avisos"}; 
     case "fallido":
       return { clase: "badge-danger", texto: "Dump fallido" };
     case "parcial":

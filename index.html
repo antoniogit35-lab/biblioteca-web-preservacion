@@ -35,6 +35,63 @@
           />
         </div>
 
+        <div class="advanced-filters" aria-labelledby="advanced-filters-title">
+          <div class="advanced-filters-header">
+            <h2 id="advanced-filters-title" class="filters-title">
+              Filtros avanzados
+            </h2>
+
+            <button
+              id="clear-advanced-filters"
+              class="clear-filters-button"
+              type="button"
+            >
+              Limpiar filtros
+            </button>
+          </div>
+
+          <div class="advanced-filters-grid">
+            <label class="advanced-filter">
+              <span>Año</span>
+              <select id="filter-year">
+                <option value="todos">Todos los años</option>
+              </select>
+            </label>
+
+            <label class="advanced-filter">
+              <span>Estado del dump</span>
+              <select id="filter-dump">
+                <option value="todos">Todos los estados</option>
+                <option value="ok">OK</option>
+                <option value="avisos">OK con avisos</option>
+                <option value="parcial">Parcial</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="fallido">Fallido</option>
+              </select>
+            </label>
+
+            <label class="advanced-filter">
+              <span>Compatibilidad</span>
+              <select id="filter-compatibility">
+                <option value="todos">Todos los estados</option>
+                <option value="ok_moderno">Funciona en sistema actual</option>
+                <option value="requiere_ajustes">Requiere ajustes</option>
+                <option value="solo_legacy">Solo entorno legacy</option>
+                <option value="no_probado">No probado</option>
+              </select>
+            </label>
+
+            <label class="advanced-filter">
+              <span>Prueba de emulador</span>
+              <select id="filter-emulator">
+                <option value="todos">Todos</option>
+                <option value="probado">Probado</option>
+                <option value="no_probado">No probado</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
         <div class="filters" aria-label="Filtros por plataforma">
           <button class="filter-btn filter-card active" data-platform="todos">
             <span class="filter-icon">
@@ -147,6 +204,13 @@
         <p id="results-count" class="results-count" aria-live="polite">
           Mostrando 0 de 0 juegos
         </p>
+
+        <div
+          id="active-filters"
+          class="active-filters"
+          aria-live="polite"
+          aria-label="Filtros activos"
+        ></div>
 
         <div class="grid" id="games-grid"></div>
       </section>
