@@ -6,11 +6,29 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 
 ### Pendiente
 
-- Añadir el logotipo de la biblioteca (`assets/img/logo-biblioteca.png`) a la interfaz, valorando su ubicación en el espacio disponible de la cabecera o en una futura sección dedicada al HDD.
 - Diseñar una sección para catalogar y consultar el contenido del HDD, manteniendo una estructura coherente con la biblioteca de juegos físicos.
 - Valorar una variante simplificada del favicon/logotipo para mejorar su legibilidad a tamaños muy reducidos.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 - Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
+
+## [v0.4.1] - 2026-08-22
+
+### Añadido
+- Incorporado el logo de la biblioteca en la cabecera principal.
+- Añadida una composición responsiva para mostrar el logo en el espacio derecho del hero sin interferir con el contenido textual.
+
+### Cambiado
+- Ajustada la distribución de la cabecera para mantener todos los textos apilados y alineados a la izquierda.
+- Ajustado el tamaño del logo en escritorio para mejorar su presencia visual.
+- Mantenido un tamaño específico y adaptado para dispositivos móviles.
+- Ordenadas alfabéticamente las tarjetas por título.
+- Aplicado el orden alfabético después de cualquier búsqueda o filtro, incluyendo plataforma y filtros avanzados.
+- Limitado el ancho máximo de las tarjetas a 360 px para evitar que una búsqueda con un único resultado amplíe excesivamente la tarjeta y la portada.
+- Centradas las tarjetas cuando hay pocos resultados para mejorar la composición visual.
+
+### Correcciones
+- Evitado que la distribución en cuadrícula estire una tarjeta aislada hasta ocupar todo el ancho disponible.
+- Conservada la proporción de las portadas al limitar el tamaño de sus tarjetas contenedoras.
 
 ## [v0.4.0] - 2026-08-22
 

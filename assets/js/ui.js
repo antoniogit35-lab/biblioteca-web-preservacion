@@ -27,6 +27,12 @@ function actualizarVista() {
     filtrosAvanzados
   );
 
+  juegosFiltrados.sort((a,b) =>
+    a.titulo.localeCompare(b.titulo, "es", {
+      sensitivity: "base"
+    })
+  );
+
   actualizarResumenCabecera();
   actualizarContadorResultados(juegosFiltrados);
 

@@ -198,8 +198,9 @@ h1 {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
   gap: 18px;
+  justify-content: center;
   padding-bottom: 40px;
 }
 
@@ -538,5 +539,41 @@ h1 {
   .active-filter-chip {
     font-size: 0.78rem;
     padding: 7px 9px;
+  }
+}
+
+.hero {
+  position: relative;
+}
+
+.hero-content {
+  min-width: 0;
+}
+
+.library-logo {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  width: clamp(180px, 21vw, 260px);
+  height: auto;
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 24px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .library-logo {
+    position: static;
+    display: block;
+    width: min(165px, 48vw);
+    margin: 22px auto 0;
+    transform: none;
   }
 }
