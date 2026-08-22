@@ -267,8 +267,37 @@
         <div class="grid" id="games-grid"></div>
       </section>
     </main>
-
   </div>
+
+  <div
+      id="game-detail-modal"
+      class="game-detail-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="game-detail-title"
+      hidden
+    >
+      <div
+        class="game-detail-backdrop"
+        data-detail-close
+        aria-hidden="true"
+      ></div>
+
+      <section class="game-detail-panel" role="document">
+        <button
+          id="game-detail-close"
+          class="game-detail-close"
+          type="button"
+          aria-label="Cerrar ficha del juego"
+          data-detail-close
+        >
+          ×
+        </button>
+
+        <div id="game-detail-content"></div>
+      </section>
+    </div>
+    
 <script src="assets/js/catalogo.js"></script>
 <script src="assets/js/ui.js"></script>
 </body>

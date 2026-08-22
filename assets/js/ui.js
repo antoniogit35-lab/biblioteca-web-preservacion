@@ -1,6 +1,7 @@
 let todosLosJuegos = [];
 let plataformaActiva = "todos";
 let terminoBusqueda = "";
+let ultimoBotonFicha = null;
 let filtrosAvanzados = {
   anio: "todos",
   dump: "todos",
@@ -16,6 +17,7 @@ async function inicializarBiblioteca() {
   configurarFiltrosAvanzados();
   configurarBusqueda();
   configurarTogglePendientes();
+  configurarModalFicha();
   rellenarFiltroAnios();
   actualizarVista();
 }
@@ -733,10 +735,25 @@ function crearTarjetaJuego(juego) {
   const notes = crearNotas(juego.notasResumen);
 
   // Montar tarjeta
+  const botonFicha = document.createElement("button");
+  botonFicha.type = "button";
+  botonFicha.className = "game-detail-button";
+  botonFicha.textContent = "Ver ficha";
+  botonFicha.setAttribute(
+    "aria-label",
+    `Ver ficha de ${juego.titulo}`
+  );
+
+  botonFicha.addEventListener("click", () => {
+  ultimoBotonFicha = botonFicha;
+  abrirFichaJuego(juego);
+  });
+
   articulo.appendChild(header);
   articulo.appendChild(coverFrame);
   articulo.appendChild(meta);
   articulo.appendChild(notes);
+  articulo.appendChild(botonFicha);
 
   return articulo;
 }
@@ -846,6 +863,220 @@ function describirCompatibilidad(estado) {
   };
 
   return textos[estado] || "No probado";
+}
+
+function configurarModalFicha() {
+  const modal = document.getElementById("game-detail-modal");
+  if (!modal) return;
+
+  modal.querySelectorAll("[data-detail-close]").forEach((elemento) => {
+    elemento.addEventListener("click", cerrarFichaJuego);
+  });
+
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && !modal.hidden) {
+      cerrarFichaJuego();
+    }
+  });
+}
+
+function cerrarFichaJuego() {
+  const modal = document.getElementById("game-detail-modal");
+  if (!modal || modal.hidden) return;
+
+  modal.hidden = true;
+  document.body.style.overflow = "";
+
+  if (ultimoBotonFicha) {
+    ultimoBotonFicha.focus();
+  }
+
+  ultimoBotonFicha = null;
+}
+
+function abrirFichaJuego(juego) {
+  const modal = document.getElementById("game-detail-modal");
+  const contenido = document.getElementById("game-detail-content");
+
+  if (!modal || !contenido) return;
+
+  const badgeInfo = obtenerBadgeInfo(juego.estadoDump);
+  const esPC = juego.plataforma === "PC";
+  const portada = juego.portada
+    ? `assets/img/frontpages/${juego.portada}.png`
+    : `https://picsum.photos/seed/${encodeURIComponent(
+        `${juego.titulo}-${juego.plataforma}`
+      )}/300/420`;
+
+  contenido.innerHTML = "";
+
+  const layout = document.createElement("div");
+  layout.className = "game-detail-layout";
+
+  const imagen = document.createElement("img");
+  imagen.className = "game-detail-cover";
+  imagen.src = portada;
+  imagen.alt = `Portada de ${juego.titulo}`;
+  imagen.width = 300;
+  imagen.height = 420;
+
+  const informacion = document.createElement("div");
+
+  const titulo = document.createElement("h2");
+  titulo.id = "game-detail-title";
+  titulo.className = "game-detail-title";
+  titulo.textContent = juego.titulo;
+
+  const subtitulo = document.createElement("p");
+  subtitulo.className = "game-detail-subtitle";
+  subtitulo.textContent = juego.anio
+    ? `${juego.plataforma} · ${juego.anio}`
+    : juego.plataforma;
+
+  const badge = document.createElement("span");
+  badge.className = `badge ${badgeInfo.clase} game-detail-badge`;
+  badge.textContent = badgeInfo.texto;
+
+  const preservacion = crearSeccionFicha(
+    "Preservación",
+    crearMetadatosFicha([
+      ["Estado del dump", badgeInfo.texto],
+      ["Fecha de dump", juego.fechaDump || "No registrada"],
+      ["Hash verificado", juego.hashVerificado ? "Sí" : "No"],
+      ["SHA-256", crearValorHashFicha(juego.hashSha256)]
+    ])
+  );
+
+  const soporte = crearSeccionFicha(
+    "Soporte físico",
+    crearMetadatosFicha([
+      ["Tipo de soporte", juego.tipo_soporte || "No registrado"],
+      [
+        "Número de discos",
+        `${juego.num_discos || 1} disco${
+          Number(juego.num_discos) === 1 ? "" : "s"
+        }`
+      ]
+    ])
+  );
+
+  const ejecucion = crearSeccionFicha(
+    "Ejecución y pruebas",
+    crearMetadatosFicha([
+      [
+        esPC ? "Compatibilidad" : "Emulador probado",
+        esPC
+          ? describirCompatibilidad(juego.estadoCompatibilidad)
+          : juego.emuladorProbado || "No probado"
+      ]
+    ])
+  );
+
+  const notas = document.createElement("p");
+  notas.className = "game-detail-notes";
+  notas.textContent =
+    juego.notasResumen || "Sin notas registradas para este juego.";
+
+  const seccionNotas = crearSeccionFicha("Notas", notas);
+
+  informacion.appendChild(titulo);
+  informacion.appendChild(subtitulo);
+  informacion.appendChild(badge);
+  informacion.appendChild(preservacion);
+  informacion.appendChild(soporte);
+  informacion.appendChild(ejecucion);
+  informacion.appendChild(seccionNotas);
+
+  if (juego.discos && juego.discos.length > 1) {
+    informacion.appendChild(crearSeccionDiscos(juego.discos));
+  }
+
+  layout.appendChild(imagen);
+  layout.appendChild(informacion);
+  contenido.appendChild(layout);
+
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+
+  const botonCerrar = document.getElementById("game-detail-close");
+  if (botonCerrar) botonCerrar.focus();
+}
+
+function crearSeccionFicha(titulo, contenido) {
+  const seccion = document.createElement("section");
+  seccion.className = "game-detail-section";
+
+  const encabezado = document.createElement("h3");
+  encabezado.className = "game-detail-section-title";
+  encabezado.textContent = titulo;
+
+  seccion.appendChild(encabezado);
+  seccion.appendChild(contenido);
+
+  return seccion;
+}
+
+function crearValorHashFicha(hash) {
+  const valor = document.createElement("code");
+  valor.className = "game-detail-hash";
+  valor.textContent = hash || "No disponible";
+  return valor;
+}
+
+function crearMetadatosFicha(datos) {
+  const contenedor = document.createElement("div");
+  contenedor.className = "game-detail-meta";
+
+  datos.forEach(([etiqueta, valor]) => {
+    const item = document.createElement("div");
+    item.className = "game-detail-meta-item";
+
+    const label = document.createElement("span");
+    label.className = "game-detail-meta-label";
+    label.textContent = etiqueta;
+
+    const value = document.createElement("span");
+    value.className = "game-detail-meta-value";
+
+    if (valor instanceof Node) {
+      value.appendChild(valor);
+    } else {
+      value.textContent = valor;
+    }
+
+    item.appendChild(label);
+    item.appendChild(value);
+    contenedor.appendChild(item);
+  });
+
+  return contenedor;
+}
+
+function crearSeccionDiscos(discos) {
+  const contenedor = document.createElement("div");
+  contenedor.className = "game-detail-discs";
+
+  discos.forEach((disco, indice) => {
+    const tarjeta = document.createElement("article");
+    tarjeta.className = "game-detail-disc";
+
+    const titulo = document.createElement("h4");
+    titulo.className = "game-detail-disc-title";
+    titulo.textContent = `Disco ${disco.disco_indice || indice + 1}`;
+
+    const metadatos = crearMetadatosFicha([
+      ["Estado del dump", disco.estado_dump || "No registrado"],
+      ["Fecha de dump", disco.fecha_dump || "No registrada"],
+      ["Hash verificado", esSi(disco.hash_verificado) ? "Sí" : "No"],
+      ["SHA-256", disco.hash_sha256 || "No disponible"]
+    ]);
+
+    tarjeta.appendChild(titulo);
+    tarjeta.appendChild(metadatos);
+    contenedor.appendChild(tarjeta);
+  });
+
+  return crearSeccionFicha("Datos por disco", contenedor);
 }
 
 document.addEventListener("DOMContentLoaded", inicializarBiblioteca);

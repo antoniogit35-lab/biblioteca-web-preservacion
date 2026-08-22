@@ -1,5 +1,13 @@
 # Biblioteca web de preservación de videojuegos
 
+<p align="center">
+  <img
+    src="assets/img/logo-biblioteca.png"
+    alt="Logo de la Biblioteca de videojuegos"
+    width="260"
+  />
+</p>
+
 Proyecto personal para organizar una biblioteca local de preservación de videojuegos.
 
 El objetivo de esta web es servir como interfaz visual para consultar el catálogo personal de juegos, plataformas, estados de preservación, compatibilidad y notas, partiendo de metadatos propios y sin incluir en el repositorio copias de discos, BIOS ni otros archivos privados.

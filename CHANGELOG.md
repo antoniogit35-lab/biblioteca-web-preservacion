@@ -11,6 +11,37 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 - Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
 
+## [v0.5.0] - 2026-08-22
+
+### Añadido
+
+- Añadida una ficha detallada por juego que se abre desde las tarjetas de la cuadrícula sin recargar la página.
+- Añadido un modal con portada, título, plataforma, año y estado de dump.
+- Añadida información completa de preservación: estado y fecha de dump, verificación de hash y SHA-256 completo cuando está disponible.
+- Añadida información del soporte físico: tipo de soporte y número de discos.
+- Añadida información de ejecución: compatibilidad para juegos de PC o emulador probado para juegos de consola.
+- Añadida una sección de datos por disco para juegos multidisco.
+- Añadida visualización de notas completas, sin truncado.
+- Añadidos controles para cerrar la ficha mediante botón, clic sobre el fondo o tecla `Escape`.
+- Añadida devolución del foco al botón `Ver ficha` que abrió el modal al cerrarlo.
+- Añadido el logotipo de la biblioteca a la cabecera del `README.md`.
+
+### Cambiado
+
+- Añadido el botón `Ver ficha` al final de cada tarjeta de juego.
+- Mejorada la presentación del SHA-256 en la ficha con tipografía monoespaciada y ajuste de línea para evitar cortes visuales aislados.
+- Adaptada la ficha detallada para escritorio y móvil, con dos columnas en pantallas amplias y una columna en pantallas estrechas.
+
+### Accesibilidad
+
+- El modal usa `role="dialog"`, `aria-modal="true"` y un título asociado mediante `aria-labelledby`.
+- Se mantiene el foco en el control de cierre al abrir la ficha y se restaura en el botón de origen al cerrarla.
+- La ficha puede cerrarse mediante la tecla `Escape`.
+
+### Validación
+
+- Probados correctamente casos de PC, consola, dump fallido y juego multidisco.
+
 ## [v0.4.2] - 2026-08-22
 
 ### Añadido
