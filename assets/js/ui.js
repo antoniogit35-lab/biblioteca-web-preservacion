@@ -18,6 +18,7 @@ async function inicializarBiblioteca() {
   configurarBusqueda();
   configurarTogglePendientes();
   configurarModalFicha();
+  configurarPanelProgreso();
   rellenarFiltroAnios();
   actualizarVista();
 }
@@ -39,6 +40,61 @@ function configurarTogglePendientes() {
         ? "Ocultar pendientes de revisión"
         : "Mostrar pendientes de revisión"
     );
+  });
+}
+
+function configurarPanelProgreso() {
+  const tirador = document.getElementById("progreso-tirador");
+  const panel = document.getElementById("panel-progreso");
+  const cerrar = document.getElementById("progreso-cerrar");
+  const fondo = document.getElementById("progreso-fondo");
+
+  if (!tirador || !panel || !cerrar || !fondo) return;
+
+  function abrirPanel() {
+    panel.classList.add("abierto");
+    tirador.classList.add("oculto");
+
+    fondo.hidden = false;
+
+    requestAnimationFrame(() => {
+      fondo.classList.add("visible");
+    });
+
+    panel.setAttribute("aria-hidden", "false");
+    tirador.setAttribute("aria-expanded", "true");
+    tirador.setAttribute("aria-label", "Cerrar panel de progreso");
+  }
+
+  function cerrarPanel() {
+    panel.classList.remove("abierto");
+    tirador.classList.remove("oculto");
+    fondo.classList.remove("visible");
+
+    panel.setAttribute("aria-hidden", "true");
+    tirador.setAttribute("aria-expanded", "false");
+    tirador.setAttribute("aria-label", "Abrir panel de progreso");
+
+    window.setTimeout(() => {
+      if (!panel.classList.contains("abierto")) {
+        fondo.hidden = true;
+      }
+    }, 300);
+
+    tirador.focus();
+  }
+
+  tirador.addEventListener("click", abrirPanel);
+  cerrar.addEventListener("click", cerrarPanel);
+  fondo.addEventListener("click", cerrarPanel);
+
+  document.addEventListener("keydown", (evento) => {
+    if (
+      evento.key === "Escape" &&
+      panel.classList.contains("abierto")
+    ) {
+      cerrarPanel();
+    }
   });
 }
 
@@ -104,7 +160,8 @@ function actualizarVista() {
 
     if (plataformaActiva !== "todos") {
       const etiquetasPlataforma = {
-        consolas_sin_emulador: "Consolas sin emulador probado"
+        consolas_sin_emulador: "Consolas sin emulador probado",
+        consolas_con_emulador: "Consolas con emulador probado"
       };
 
       filtros.push({
@@ -220,6 +277,7 @@ function actualizarVista() {
   }
   actualizarFiltrosActivos();
   actualizarEstadisticas(juegosFiltrados);
+  actualizarProgresoColeccion(todosLosJuegos);
   renderizarJuegos(juegosFiltrados);
   renderizarPendientes();
 }
@@ -297,9 +355,9 @@ function obtenerGruposPendientes() {
   return [
     {
       id: "dump-fallido",
-      titulo: "Dump fallidos",
+      titulo: "Dumps fallidos",
       descripcion: 
-        "El proceso de lectura no se completó correctamente. Conviende revisar y repetir el dump.",
+        "El proceso de lectura no se completó correctamente. Conviene revisar y repetir el dump.",
       prioridad: "priority-high",
       juegos: todosLosJuegos.filter(
         (juego) => juego.estadoDump === "fallido"
@@ -375,12 +433,24 @@ function obtenerGruposPendientes() {
       id: "consola-sin-emulador",
       titulo: "Consolas sin prueba de emulador",
       descripcion:
-        "Juegos de consola sun un emulador probado.",
+        "Juegos de consola sin un emulador probado.",
       prioridad: "priority-review",
       juegos: todosLosJuegos.filter(
         (juego) => 
           juego.plataforma !== "PC" &&
           !juego.emuladorProbado
+      )
+    },
+    {
+      id: "consola-con-emulador",
+      titulo: "Consolas con emulador probado",
+      descripcion:
+        "Juegos de consola con un emulador ya probado.",
+      prioridad: "priority-review",
+      juegos: todosLosJuegos.filter(
+        (juego) =>
+          juego.plataforma !== "PC" &&
+          Boolean(juego.emuladorProbado)
       )
     }
   ];
@@ -427,7 +497,8 @@ function abrirGrupoPendiente(idGrupo) {
     "pc-ajustes": { plataforma: "PC", compatibilidad: "requiere_ajustes" },
     "pc-legacy": { plataforma: "PC", compatibilidad: "solo_legacy" },
     "pc-no-probado": { plataforma: "PC", compatibilidad: "no_probado" },
-    "consola-sin-emulador": { plataforma: "consolas_sin_emulador" }
+    "consola-sin-emulador": { plataforma: "consolas_sin_emulador" },
+    "consola-con-emulador": { plataforma: "consolas_con_emulador" }
   };
 
   const filtro = filtrosPorGrupo[idGrupo];
@@ -499,6 +570,10 @@ function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
       coincidePlataforma =
         juego.plataforma !== "PC" &&
         !juego.emuladorProbado;
+    } else if (plataforma === "consolas_con_emulador") {
+      coincidePlataforma =
+        juego.plataforma !== "PC" &&
+        Boolean(juego.emuladorProbado);
     } else {
       coincidePlataforma = juego.plataforma === plataforma;
     }
@@ -644,6 +719,194 @@ function actualizarEstadisticas(juegos) {
   if (statDumpsOk) statDumpsOk.textContent = dumpsOk;
   if (statDumpsPending) statDumpsPending.textContent = pendientesOFallidos;
   if (statPlatforms) statPlatforms.textContent = plataformas.size;
+}
+
+function actualizarProgresoColeccion(juegos) {
+  const total = juegos.length;
+
+  const dumpsOk = contarJuegos(juegos, (juego) => juego.estadoDump === "ok");
+  const dumpsAvisos = contarJuegos(
+    juegos,
+    (juego) => juego.estadoDump === "avisos"
+  );
+  const dumpsParciales = contarJuegos(
+    juegos,
+    (juego) => juego.estadoDump === "parcial"
+  );
+  const dumpsPendientes = contarJuegos(
+    juegos,
+    (juego) => juego.estadoDump === "pendiente"
+  );
+  const dumpsFallidos = contarJuegos(
+    juegos,
+    (juego) => juego.estadoDump === "fallido"
+  );
+
+  const hashesOk = contarJuegos(
+    juegos,
+    (juego) => juego.hashVerificado
+  );
+
+  const juegosPC = juegos.filter((juego) => juego.plataforma === "PC");
+  const juegosConsola = juegos.filter((juego) => juego.plataforma !== "PC");
+
+  const pcOk = contarJuegos(
+    juegosPC,
+    (juego) => juego.estadoCompatibilidad === "ok_moderno"
+  );
+  const pcLegacy = contarJuegos(
+    juegosPC,
+    (juego) => juego.estadoCompatibilidad === "solo_legacy"
+  );
+  const pcAjustes = contarJuegos(
+    juegosPC,
+    (juego) => juego.estadoCompatibilidad === "requiere_ajustes"
+  );
+  const pcNoProbados = contarJuegos(
+    juegosPC,
+    (juego) => juego.estadoCompatibilidad === "no_probado"
+  );
+
+  const consolasProbadas = contarJuegos(
+    juegosConsola,
+    (juego) => Boolean(juego.emuladorProbado)
+  );
+  const consolasNoProbadas = contarJuegos(
+    juegosConsola,
+    (juego) => !juego.emuladorProbado
+  );
+
+  actualizarTextoProgreso("pg-juegos", total);
+  actualizarTextoProgreso("pg-dumps-ok", dumpsOk);
+  actualizarTextoProgreso("pg-dumps-avisos", dumpsAvisos);
+  actualizarTextoProgreso("pg-dumps-parciales", dumpsParciales);
+  actualizarTextoProgreso("pg-dumps-pendientes", dumpsPendientes);
+  actualizarTextoProgreso("pg-dumps-fallidos", dumpsFallidos);
+  actualizarTextoProgreso("pg-hashes-ok", hashesOk);
+
+  actualizarTextoProgreso(
+    "pg-porcentaje-lista",
+    formatearPorcentaje(dumpsOk + dumpsAvisos, total)
+  );
+  actualizarTextoProgreso(
+    "pg-porcentaje-hashes",
+    formatearPorcentaje(hashesOk, total)
+  );
+
+  actualizarTextoProgreso("pg-pc-ok", pcOk);
+  actualizarTextoProgreso("pg-pc-legacy", pcLegacy);
+  actualizarTextoProgreso("pg-pc-ajustes", pcAjustes);
+  actualizarTextoProgreso("pg-pc-noprobar", pcNoProbados);
+  actualizarTextoProgreso("pg-consolas-probado", consolasProbadas);
+  actualizarTextoProgreso("pg-consolas-noprobar", consolasNoProbadas);
+
+  renderizarTablaPlataformas(juegos);
+}
+
+function contarJuegos(juegos, condicion) {
+  return juegos.filter(condicion).length;
+}
+
+function actualizarTextoProgreso(id, valor) {
+  const elemento = document.getElementById(id);
+  if (elemento) elemento.textContent = valor;
+}
+
+function formatearPorcentaje(parte, total) {
+  if (total === 0) return "0%";
+
+  return `${Math.round((parte / total) * 100)}%`;
+}
+
+function renderizarTablaPlataformas(juegos) {
+  const cuerpoTabla = document.querySelector(
+    "#tabla-plataformas tbody"
+  );
+
+  if (!cuerpoTabla) return;
+
+  cuerpoTabla.innerHTML = "";
+
+  const plataformas = [...new Set(juegos.map((juego) => juego.plataforma))]
+    .sort((a, b) => a.localeCompare(b, "es"));
+
+  plataformas.forEach((plataforma) => {
+    const juegosPlataforma = juegos.filter(
+      (juego) => juego.plataforma === plataforma
+    );
+
+    const esPC = plataforma === "PC";
+
+    const total = juegosPlataforma.length;
+    const ok = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoDump === "ok"
+    );
+    const avisos = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoDump === "avisos"
+    );
+    const parcial = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoDump === "parcial"
+    );
+    const pendiente = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoDump === "pendiente"
+    );
+    const fallido = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoDump === "fallido"
+    );
+    const hashesOk = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.hashVerificado
+    );
+
+    const sinProbar = esPC
+      ? contarJuegos(
+          juegosPlataforma,
+          (juego) => juego.estadoCompatibilidad === "no_probado"
+        )
+      : contarJuegos(
+          juegosPlataforma,
+          (juego) => !juego.emuladorProbado
+        );
+
+    const requiereAjustes = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoCompatibilidad === "requiere_ajustes"
+    );
+
+    const soloLegacy = contarJuegos(
+      juegosPlataforma,
+      (juego) => juego.estadoCompatibilidad === "solo_legacy"
+    );
+
+    const fila = document.createElement("tr");
+
+    const datos = [
+      plataforma,
+      total,
+      ok,
+      avisos,
+      parcial,
+      pendiente,
+      fallido,
+      hashesOk,
+      sinProbar,
+      requiereAjustes,
+      soloLegacy
+    ];
+
+    datos.forEach((dato) => {
+      const celda = document.createElement("td");
+      celda.textContent = dato;
+      fila.appendChild(celda);
+    });
+
+    cuerpoTabla.appendChild(fila);
+  });
 }
 
 function renderizarJuegos(juegos) {

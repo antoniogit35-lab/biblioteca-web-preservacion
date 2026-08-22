@@ -204,6 +204,151 @@
         </article>
       </section>
 
+      <button
+        id="progreso-tirador"
+        class="progreso-tirador"
+        type="button"
+        aria-controls="panel-progreso"
+        aria-expanded="false"
+        aria-label="Abrir panel de progreso"
+      >
+        <img 
+          class="progreso-flecha" 
+          src="assets/img/icons/arrow-right.png" 
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+
+      <aside
+        id="panel-progreso"
+        class="panel-progreso"
+        aria-label="Progreso de la colección"
+        aria-hidden="true"
+      >
+        <div class="panel-progreso-cabecera">
+          <div>
+            <p class="panel-progreso-eyebrow">Preservación</p>
+            <h2>Progreso de la colección</h2>
+          </div>
+
+          <button
+            id="progreso-cerrar"
+            class="panel-progreso-cerrar"
+            type="button"
+            aria-label="Cerrar panel de progreso"
+          >
+            <img 
+              class="progreso-flecha" 
+              src="assets/img/icons/arrow-left.png" 
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+
+        <div class="panel-progreso-contenido">
+          <section class="progreso-seccion" aria-label="Resumen de progreso">
+
+              <!-- Resumen global -->
+              <div class="progreso-resumen">
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Juegos catalogados</div>
+                  <div class="progreso-valor" id="pg-juegos">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Dumps OK</div>
+                  <div class="progreso-valor" id="pg-dumps-ok">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Dumps con avisos</div>
+                  <div class="progreso-valor" id="pg-dumps-avisos">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Dumps parciales</div>
+                  <div class="progreso-valor" id="pg-dumps-parciales">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Dumps pendientes</div>
+                  <div class="progreso-valor" id="pg-dumps-pendientes">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Dumps fallidos</div>
+                  <div class="progreso-valor" id="pg-dumps-fallidos">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Hashes verificados</div>
+                  <div class="progreso-valor" id="pg-hashes-ok">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Colección lista</div>
+                  <div class="progreso-valor" id="pg-porcentaje-lista">0%</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Hashes verificados (%)</div>
+                  <div class="progreso-valor" id="pg-porcentaje-hashes">0%</div>
+                </div>
+              </div>
+
+              <!-- Pruebas de ejecución -->
+              <h3>Pruebas de ejecución</h3>
+              <div class="progreso-resumen">
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">PC – OK moderno</div>
+                  <div class="progreso-valor" id="pg-pc-ok">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">PC – Solo legacy</div>
+                  <div class="progreso-valor" id="pg-pc-legacy">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">PC – Requiere ajustes</div>
+                  <div class="progreso-valor" id="pg-pc-ajustes">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">PC – No probado</div>
+                  <div class="progreso-valor" id="pg-pc-noprobar">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Consolas – Emulador probado</div>
+                  <div class="progreso-valor" id="pg-consolas-probado">0</div>
+                </div>
+                <div class="progreso-tarjeta">
+                  <div class="progreso-titulo">Consolas – No probado</div>
+                  <div class="progreso-valor" id="pg-consolas-noprobar">0</div>
+                </div>
+              </div>
+
+              <!-- Desglose por plataforma -->
+              <h3>Desglose por plataforma</h3>
+              <div class="progreso-tabla-contenedor">
+                <table class="progreso-tabla" id="tabla-plataformas">
+                  <thead>
+                    <tr>
+                      <th>Plataforma</th>
+                      <th>Juegos</th>
+                      <th>OK</th>
+                      <th>Avisos</th>
+                      <th>Parcial</th>
+                      <th>Pendiente</th>
+                      <th>Fallido</th>
+                      <th>Hashes OK</th>
+                      <th>Sin probar</th>
+                      <th>Requiere ajustes</th>
+                      <th>Solo legacy</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Se rellena dinámicamente desde JS -->
+                  </tbody>
+                </table>
+              </div>
+            </section>
+        </div>
+      </aside>
+
+      <div id="progreso-fondo" class="progreso-fondo" hidden></div>
+
       <section
         class="review-queue"
         aria-labelledby="review-queue-title"
@@ -297,7 +442,7 @@
         <div id="game-detail-content"></div>
       </section>
     </div>
-    
+
 <script src="assets/js/catalogo.js"></script>
 <script src="assets/js/ui.js"></script>
 </body>

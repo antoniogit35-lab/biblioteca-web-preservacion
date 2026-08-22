@@ -11,6 +11,47 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 - Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
 
+## [v0.6.0] - 2026-08-22
+
+### Añadido
+
+- Añadido un panel lateral desplegable de progreso de la colección.
+- Añadido un tirador lateral con flecha para abrir el panel sin ocupar espacio permanente en la vista principal.
+- Añadido cierre del panel mediante botón, clic sobre el fondo oscurecido y tecla `Escape`.
+- Añadido resumen global de preservación con:
+  - Juegos catalogados.
+  - Dumps OK, con avisos, parciales, pendientes y fallidos.
+  - Hashes verificados.
+  - Porcentaje de colección lista.
+  - Porcentaje de hashes verificados.
+- Añadido resumen de pruebas de ejecución:
+  - Juegos de PC que funcionan en sistemas actuales.
+  - Juegos de PC que requieren ajustes.
+  - Juegos de PC que requieren entorno legacy.
+  - Juegos de PC aún no probados.
+  - Juegos de consola con y sin emulador probado.
+- Añadida tabla informativa de progreso por plataforma con estados de dump, hashes, pruebas y compatibilidad.
+- Añadido desplazamiento horizontal a la tabla del panel para conservar su legibilidad en pantallas estrechas.
+- Añadido grupo `Consolas con emulador probado` a la vista de pendientes, con acceso directo a sus juegos.
+- Añadido filtro virtual para consultar exclusivamente consolas que ya tienen emulador probado.
+
+### Cambiado
+
+- La vista de pendientes muestra ahora ocho grupos distribuidos de forma más equilibrada.
+- El panel de progreso calcula sus métricas desde la colección completa, sin verse afectado por la búsqueda ni por los filtros activos.
+- La vista de pendientes permite consultar tanto consolas sin prueba de emulador como consolas con emulador probado.
+
+### Accesibilidad
+
+- Añadidos atributos `aria-expanded`, `aria-hidden` y etiquetas accesibles al control del panel lateral.
+- El foco vuelve al tirador lateral tras cerrar el panel.
+- El panel puede cerrarse mediante la tecla `Escape`.
+- Adaptado el panel a móvil, con tarjetas en dos columnas y una sola columna en pantallas muy estrechas.
+
+### Correcciones
+
+- Corregidos textos de la vista de pendientes relacionados con dumps fallidos.
+
 ## [v0.5.0] - 2026-08-22
 
 ### Añadido

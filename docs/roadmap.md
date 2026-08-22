@@ -157,7 +157,7 @@ El contenido concreto se decidirá después de utilizar la ficha de v0.5.0.
 - Añadir desglose por plataforma.
 - Mostrar una tabla o panel de progreso útil para priorizar trabajo.
 - Integrar o enlazar la vista de tareas pendientes.
-- Añadir exportación opcional de un informe en CSV o texto para abrir en LibreOffice y revisar fuera de la web.
+- Decidir sobre exportación opcional de un informe en CSV o texto tras usar el panel.
 
 ### Resultado esperado
 
@@ -167,6 +167,28 @@ Poder contestar rápidamente:
 - ¿Qué plataforma tiene más trabajo pendiente?
 - ¿Qué dumps o pruebas requieren atención primero?
 - ¿Qué títulos necesitan troubleshooting?
+
+---
+
+## v0.7.0 — Navegación desde informes
+
+**Objetivo:** convertir el panel de progreso en una herramienta de acceso directo a listas de trabajo concretas.
+
+### Previsto
+
+- Hacer clicables las filas de la tabla de desglose por plataforma.
+- Botones `Ver juegos` por plataforma que apliquen el filtro correspondiente.
+- Accesos desde métricas de una fila:
+  - `Pendientes` → plataforma + dump pendiente/parcial/fallido.
+  - `Sin probar` → plataforma + emulador no probado (consolas).
+  - `Requiere ajustes` → plataforma PC + compatibilidad correspondiente.
+- Mantener sincronizados los filtros, chips activos, contador y la cuadrí·´cula.
+- Ajustar textos, tooltips y accesibilidad para las celdas interactivas.
+- Decidir si la exportación de informe encaja mejor en esta versión o en una posterior.
+
+### Resultado esperado
+
+Poder pasar de un vistazo del progreso a una lista filtrada lista para trabajar, sin tener que reconstruir manualmente los filtros.
 
 ---
 
