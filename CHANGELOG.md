@@ -11,6 +11,37 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 - Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
 
+## [v0.4.2] - 2026-08-22
+
+### Añadido
+
+- Añadida la vista operativa `Pendientes de revisión` para convertir los datos del catálogo en una lista de trabajo priorizable.
+- Añadidos grupos automáticos para identificar juegos con:
+  - Dumps fallidos.
+  - Dumps parciales.
+  - Dumps pendientes.
+  - Dumps OK con avisos.
+  - Juegos de PC que requieren ajustes.
+  - Juegos de PC que solo funcionan en entorno legacy.
+  - Juegos de PC sin prueba de compatibilidad registrada.
+  - Juegos de consola sin emulador probado registrado.
+- Añadido un contador por grupo y una descripción del motivo por el que los juegos requieren revisión.
+- Añadido un botón `Ver juegos` en cada grupo para abrir la biblioteca con los criterios correspondientes ya aplicados.
+- Añadido un control plegable para ocultar o volver a mostrar la vista de pendientes.
+- Incorporadas flechas visuales independientes para indicar si la vista está desplegada o contraída.
+
+### Cambiado
+
+- Aplicadas prioridades visuales a los grupos de pendientes: incidencias graves de dump, revisiones intermedias y revisiones técnicas.
+- Integrada la vista de pendientes con los filtros, el contador de resultados y los chips de filtros activos ya existentes.
+- Mejorado el texto del chip del filtro especial para mostrar `Consolas sin emulador probado` en lugar del identificador interno.
+
+### Corregido
+
+- Corregido el acceso rápido de `Consolas sin prueba de emulador` para excluir juegos de PC sin emulador registrado.
+- Alineados los contadores de la vista de pendientes con los resultados mostrados al pulsar `Ver juegos`.
+- Garantizado que los filtros aplicados desde cada grupo se reinicien antes de establecer el criterio de revisión seleccionado.
+
 ## [v0.4.1] - 2026-08-22
 
 ### Añadido

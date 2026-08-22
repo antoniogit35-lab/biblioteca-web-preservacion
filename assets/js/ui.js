@@ -15,8 +15,29 @@ async function inicializarBiblioteca() {
   configurarFiltrosPlataforma();
   configurarFiltrosAvanzados();
   configurarBusqueda();
+  configurarTogglePendientes();
   rellenarFiltroAnios();
   actualizarVista();
+}
+
+function configurarTogglePendientes() {
+  const panel = document.querySelector(".review-queue");
+  const boton = document.getElementById("review-queue-toggle");
+
+  if (!panel || !boton) return;
+
+  boton.addEventListener("click", () => {
+    const estaColapsado = panel.classList.toggle("is-collapsed");
+    const expandido = !estaColapsado;
+
+    boton.setAttribute("aria-expanded", String(expandido));
+    boton.setAttribute(
+      "aria-label",
+      expandido
+        ? "Ocultar pendientes de revisión"
+        : "Mostrar pendientes de revisión"
+    );
+  });
 }
 
 function actualizarVista() {
@@ -80,9 +101,13 @@ function actualizarVista() {
     const filtros = [];
 
     if (plataformaActiva !== "todos") {
+      const etiquetasPlataforma = {
+        consolas_sin_emulador: "Consolas sin emulador probado"
+      };
+
       filtros.push({
         tipo: "plataforma",
-        etiqueta: plataformaActiva
+        etiqueta: etiquetasPlataforma[plataformaActiva] || plataformaActiva
       });
     }
 
@@ -194,6 +219,251 @@ function actualizarVista() {
   actualizarFiltrosActivos();
   actualizarEstadisticas(juegosFiltrados);
   renderizarJuegos(juegosFiltrados);
+  renderizarPendientes();
+}
+
+function renderizarPendientes() {
+  const contenedor = document.getElementById("review-queue-groups");
+  if (!contenedor) return;
+
+  const grupos = obtenerGruposPendientes();
+
+  contenedor.innerHTML = "";
+
+  const hayPendientes = grupos.some((grupo) => grupo.juegos.length > 0);
+
+  if (!hayPendientes) {
+    const mensaje = document.createElement("p");
+    mensaje.className = "review-queue-empty";
+    mensaje.textContent = "No hay juegos pendientes de revisión. La colección está al día.";
+
+    contenedor.appendChild(mensaje);
+    return;
+  }
+
+  grupos.forEach((grupo) => {
+    if (grupo.juegos.length === 0) return;
+
+    const tarjeta = document.createElement("article");
+    tarjeta.className = `review-queue ${grupo.prioridad}`;
+
+    const cabecera = document.createElement("div");
+    cabecera.className = "review-queue-header";
+
+    const titulo = document.createElement("h3");
+    titulo.className = "review-queue-title";
+    titulo.textContent = grupo.titulo;
+
+    const contador = document.createElement("span");
+    contador.className = "review-group-count";
+    contador.textContent = grupo.juegos.length;
+    contador.setAttribute(
+      "aria-label",
+      `${grupo.juegos.length} juego${grupo.juegos.length === 1 ? "" : "s"}`
+    );
+
+    const descripcion = document.createElement("p");
+    descripcion.className = "review-group-description";
+    descripcion.textContent = grupo.descripcion;
+
+    const boton = document.createElement("button");
+    boton.className = "review-group-action";
+    boton.type = "button";
+    boton.textContent = "Ver juegos";
+    boton.dataset.reviewGroup = grupo.id;
+    boton.setAttribute(
+      "aria-label",
+      `Ver ${grupo.juegos.length} juego${grupo.juegos.length === 1 ? "" : "s"}: ${grupo.titulo}` 
+    );
+
+    boton.addEventListener("click", () => {
+      abrirGrupoPendiente(grupo.id);
+    });
+
+    cabecera.appendChild(titulo);
+    cabecera.appendChild(contador);
+
+    tarjeta.appendChild(cabecera);
+    tarjeta.appendChild(descripcion);
+    tarjeta.appendChild(boton);
+
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+function obtenerGruposPendientes() {
+  return [
+    {
+      id: "dump-fallido",
+      titulo: "Dump fallidos",
+      descripcion: 
+        "El proceso de lectura no se completó correctamente. Conviende revisar y repetir el dump.",
+      prioridad: "priority-high",
+      juegos: todosLosJuegos.filter(
+        (juego) => juego.estadoDump === "fallido"
+      )
+    },
+    {
+      id: "dump-parcial",
+      titulo: "Dumps parciales",
+      descripcion:
+        "Solo parte del contenido se ha podido procesar. Requiere comprobar los discos pendientes.",
+      prioridad: "priority-high",
+      juegos: todosLosJuegos.filter(
+        (juego) => juego.estadoDump === "parcial"
+      )
+    },
+    {
+      id: "dump-pendiente",
+      titulo: "Dumps pendientes",
+      descripcion:
+        "Todavía no se ha hecho un dump completo para estos juegos.",
+      prioridad: "priority-medium",
+      juegos: todosLosJuegos.filter(
+        (juego) => juego.estadoDump === "pendiente"
+      )
+    },
+    {
+      id: "dump-avisos",
+      titulo: "Dumps con avisos",
+      descripcion:
+        "El dump terminó, pero registró errores de lectura que podrían afectar al juego.",
+      prioridad: "priority-medium",
+      juegos: todosLosJuegos.filter(
+        (juego) => juego.estadoDump === "avisos"
+      )
+    },
+    {
+      id: "pc-ajustes",
+      titulo: "PC que requiere ajustes",
+      descripcion:
+        "Juegos de PC que funcionan con incidencias o necesitan cambios de configuración.",
+      prioridad: "priority-review",
+      juegos: todosLosJuegos.filter(
+        (juego) => 
+          juego.plataforma === "PC" &&
+          juego.estadoCompatibilidad === "requiere_ajustes"
+      )
+    },
+    {
+      id: "pc-legacy",
+      titulo: "PC solo en entorno legacy",
+      descripcion:
+        "Juegos de PC que necesitan un sistema anterior para ejecutarse correctamente.",
+      prioridad: "priority-review",
+      juegos: todosLosJuegos.filter(
+        (juego) => 
+          juego.plataforma === "PC" &&
+          juego.estadoCompatibilidad === "solo_legacy"
+      )
+    },
+    {
+      id: "pc-no-probado",
+      titulo: "PC sin prueba de compatibilidad",
+      descripcion:
+        "Juegos de PC con dump registrado, pero todavía sin una prueba de funcionamiento.",
+      prioridad: "priority-review",
+      juegos: todosLosJuegos.filter(
+        (juego) => 
+          juego.plataforma === "PC" &&
+          juego.estadoCompatibilidad === "no_probado"
+      )
+    },
+    {
+      id: "consola-sin-emulador",
+      titulo: "Consolas sin prueba de emulador",
+      descripcion:
+        "Juegos de consola sun un emulador probado.",
+      prioridad: "priority-review",
+      juegos: todosLosJuegos.filter(
+        (juego) => 
+          juego.plataforma !== "PC" &&
+          !juego.emuladorProbado
+      )
+    }
+  ];
+}
+
+function abrirGrupoPendiente(idGrupo) {
+  const buscador = document.getElementById("search-input");
+
+  terminoBusqueda = "";
+  if (buscador) buscador.value = "";
+
+  plataformaActiva = "todos";
+
+  document.querySelectorAll("[data-platform]").forEach((boton) => {
+    boton.classList.toggle(
+      "active",
+      boton.dataset.platform === "todos"
+    );
+  });
+
+  filtrosAvanzados = {
+    anio: "todos",
+    dump: "todos",
+    compatibilidad: "todos",
+    emulador: "todos"
+  };
+
+  const controles = {
+    anio: document.getElementById("filter-year"),
+    dump: document.getElementById("filter-dump"),
+    compatibilidad: document.getElementById("filter-compatibility"),
+    emulador: document.getElementById("filter-emulator")
+  };
+
+  Object.values(controles).forEach((control) => {
+    if (control) control.value = "todos";
+  });
+
+  const filtrosPorGrupo = {
+    "dump-fallido": { dump: "fallido" },
+    "dump-parcial": { dump: "parcial" },
+    "dump-pendiente": { dump: "pendiente" },
+    "dump-avisos": { dump: "avisos" },
+    "pc-ajustes": { plataforma: "PC", compatibilidad: "requiere_ajustes" },
+    "pc-legacy": { plataforma: "PC", compatibilidad: "solo_legacy" },
+    "pc-no-probado": { plataforma: "PC", compatibilidad: "no_probado" },
+    "consola-sin-emulador": { plataforma: "consolas_sin_emulador" }
+  };
+
+  const filtro = filtrosPorGrupo[idGrupo];
+  if (!filtro) return;
+
+  if (filtro.plataforma) {
+    plataformaActiva = filtro.plataforma;
+
+    document.querySelectorAll("[data-platform]").forEach((boton) => {
+      boton.classList.toggle(
+        "active",
+        boton.dataset.platform === plataformaActiva
+      );
+    });
+  }
+
+  if (filtro.dump) {
+    filtrosAvanzados.dump = filtro.dump;
+    if (controles.dump) controles.dump.value = filtro.dump;
+  }
+
+  if (filtro.compatibilidad) {
+    filtrosAvanzados.compatibilidad = filtro.compatibilidad;
+    if (controles.compatibilidad) {
+      controles.compatibilidad.value = filtro.compatibilidad;
+    }
+  }
+
+  actualizarVista();
+
+  const seccionResultados = document.getElementById("games-grid");
+
+  if (seccionResultados) {
+    seccionResultados.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 }
 
 function actualizarResumenCabecera() {
@@ -219,8 +489,17 @@ function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
   const termino = busqueda.trim().toLowerCase();
 
   return juegos.filter(juego => {
-    const coincidePlataforma =
-      plataforma === "todos" || juego.plataforma === plataforma;
+    let coincidePlataforma = true;
+
+    if (plataforma === "todos") {
+      coincidePlataforma = true;
+    } else if (plataforma === "consolas_sin_emulador") {
+      coincidePlataforma =
+        juego.plataforma !== "PC" &&
+        !juego.emuladorProbado;
+    } else {
+      coincidePlataforma = juego.plataforma === plataforma;
+    }
 
     const coincideAnio =
       filtros.anio === "todos" || juego.anio === filtros.anio;

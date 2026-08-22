@@ -204,6 +204,52 @@
         </article>
       </section>
 
+      <section
+        class="review-queue"
+        aria-labelledby="review-queue-title"
+      >
+        <div class="review-queue-header">
+          <div>
+            <h2 id="review-queue-title" class="section-title">
+              Pendientes de revisión
+            </h2>
+
+            <p class="review-queue-description">
+              Juegos que necesitan una comprobación, un nuevo dump o una prueba de funcionamiento.
+            </p>
+          </div>
+
+          <button
+            id="review-queue-toggle"
+            class="review-queue-toggle"
+            type="button"
+            aria-expanded="true"
+            aria-controls="review-queue-groups"
+            aria-label="Ocultar pendientes de revisión"
+          >
+            <img
+              class="review-queue-arrow arrow-up"
+              src="assets/img/icons/arrow-up.png"
+              alt=""
+              aria-hidden="true"
+            />
+
+            <img
+              class="review-queue-arrow arrow-down"
+              src="assets/img/icons/arrow-down.png"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+
+        <div
+          id="review-queue-groups"
+          class="review-queue-groups"
+          aria-live="polite"
+        ></div>
+      </section>
+
       <section>
         <h2 class="section-title">Juegos catalogados</h2>
 
