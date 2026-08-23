@@ -6,7 +6,9 @@ let filtrosAvanzados = {
   anio: "todos",
   dump: "todos",
   compatibilidad: "todos",
-  emulador: "todos"
+  emulador: "todos",
+  hashVerificado: "todos",
+  plataformaSecundaria: ""
 };
 
 async function inicializarBiblioteca() {
@@ -43,58 +45,78 @@ function configurarTogglePendientes() {
   });
 }
 
-function configurarPanelProgreso() {
+function abrirPanelProgreso() {
   const tirador = document.getElementById("progreso-tirador");
   const panel = document.getElementById("panel-progreso");
+  const fondo = document.getElementById("progreso-fondo");
+
+  if (!tirador || !panel || !fondo) return;
+
+  panel.classList.add("abierto");
+  tirador.classList.add("oculto");
+  fondo.hidden = false;
+
+  requestAnimationFrame(() => {
+    fondo.classList.add("visible");
+  });
+
+  panel.setAttribute("aria-hidden", "false");
+  tirador.setAttribute("aria-expanded", "true");
+  tirador.setAttribute("aria-label", "Cerrar panel de progreso");
+}
+
+function cerrarPanelProgreso() {
+  const tirador = document.getElementById("progreso-tirador");
+  const panel = document.getElementById("panel-progreso");
+  const fondo = document.getElementById("progreso-fondo");
+
+  if (!tirador || !panel || !fondo) return;
+
+  panel.classList.remove("abierto");
+  tirador.classList.remove("oculto");
+  fondo.classList.remove("visible");
+
+  panel.setAttribute("aria-hidden", "true");
+  tirador.setAttribute("aria-expanded", "false");
+  tirador.setAttribute("aria-label", "Abrir panel de progreso");
+
+  window.setTimeout(() => {
+    if (!panel.classList.contains("abierto")) {
+      fondo.hidden = true;
+    }
+  }, 300);
+
+  tirador.focus();
+}
+
+function configurarPanelProgreso() {
+  const tirador = document.getElementById("progreso-tirador");
   const cerrar = document.getElementById("progreso-cerrar");
   const fondo = document.getElementById("progreso-fondo");
 
-  if (!tirador || !panel || !cerrar || !fondo) return;
+  if (!tirador || !cerrar || !fondo) return;
 
-  function abrirPanel() {
-    panel.classList.add("abierto");
-    tirador.classList.add("oculto");
-
-    fondo.hidden = false;
-
-    requestAnimationFrame(() => {
-      fondo.classList.add("visible");
-    });
-
-    panel.setAttribute("aria-hidden", "false");
-    tirador.setAttribute("aria-expanded", "true");
-    tirador.setAttribute("aria-label", "Cerrar panel de progreso");
-  }
-
-  function cerrarPanel() {
-    panel.classList.remove("abierto");
-    tirador.classList.remove("oculto");
-    fondo.classList.remove("visible");
-
-    panel.setAttribute("aria-hidden", "true");
-    tirador.setAttribute("aria-expanded", "false");
-    tirador.setAttribute("aria-label", "Abrir panel de progreso");
-
-    window.setTimeout(() => {
-      if (!panel.classList.contains("abierto")) {
-        fondo.hidden = true;
-      }
-    }, 300);
-
-    tirador.focus();
-  }
-
-  tirador.addEventListener("click", abrirPanel);
-  cerrar.addEventListener("click", cerrarPanel);
-  fondo.addEventListener("click", cerrarPanel);
+  tirador.addEventListener("click", abrirPanelProgreso);
+  cerrar.addEventListener("click", cerrarPanelProgreso);
+  fondo.addEventListener("click", cerrarPanelProgreso);
 
   document.addEventListener("keydown", (evento) => {
+    const panel = document.getElementById("panel-progreso");
+
     if (
       evento.key === "Escape" &&
+      panel &&
       panel.classList.contains("abierto")
     ) {
-      cerrarPanel();
+      cerrarPanelProgreso();
     }
+  });
+
+  document.querySelectorAll("[data-progreso-filtro]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const filtro = JSON.parse(boton.dataset.progresoFiltro || "{}");
+      abrirFiltroDesdeProgreso(filtro);
+    });
   });
 }
 
@@ -223,12 +245,27 @@ function actualizarVista() {
       });
     }
 
+    if (filtrosAvanzados.hashVerificado === "si") {
+      filtros.push({
+        tipo: "hash",
+        etiqueta: "Hash verificado"
+      });
+    }
+
+    if (filtrosAvanzados.plataformaSecundaria) {
+      filtros.push({
+        tipo: "plataformaSecundaria",
+        etiqueta: filtrosAvanzados.plataformaSecundaria
+      });
+    }
+
     return filtros;
   }
 
   function quitarFiltroActivo(tipo) {
     if (tipo === "plataforma") {
       plataformaActiva = "todos";
+      filtrosAvanzados.plataformaSecundaria = "";
 
       document.querySelectorAll("[data-platform]").forEach((boton) => {
         boton.classList.toggle(
@@ -236,6 +273,10 @@ function actualizarVista() {
           boton.dataset.platform === "todos"
         );
       });
+    }
+
+    if (tipo === "plataformaSecundaria") {
+      filtrosAvanzados.plataformaSecundaria = "";
     }
 
     if (tipo === "busqueda") {
@@ -271,6 +312,10 @@ function actualizarVista() {
 
       const selector = document.getElementById("filter-emulator");
       if (selector) selector.value = "todos";
+    }
+
+    if (tipo === "hash") {
+      filtrosAvanzados.hashVerificado = "todos";
     }
 
     actualizarVista();
@@ -475,7 +520,9 @@ function abrirGrupoPendiente(idGrupo) {
     anio: "todos",
     dump: "todos",
     compatibilidad: "todos",
-    emulador: "todos"
+    emulador: "todos",
+    hashVerificado: "todos",
+    plataformaSecundaria: ""
   };
 
   const controles = {
@@ -539,6 +586,55 @@ function abrirGrupoPendiente(idGrupo) {
   }
 }
 
+function abrirFiltroDesdeProgreso(filtro = {}) {
+  const buscador = document.getElementById("search-input");
+  const controles = {
+    anio: document.getElementById("filter-year"),
+    dump: document.getElementById("filter-dump"),
+    compatibilidad: document.getElementById("filter-compatibility"),
+    emulador: document.getElementById("filter-emulator")
+  };
+
+  terminoBusqueda = "";
+  if (buscador) buscador.value = "";
+
+  plataformaActiva = filtro.plataforma || "todos";
+
+  const plataformaSecundaria = filtro.plataformaSecundaria || "";
+
+  filtrosAvanzados = {
+    anio: filtro.anio || "todos",
+    dump: filtro.dump || "todos",
+    compatibilidad: filtro.compatibilidad || "todos",
+    emulador: filtro.emulador || "todos",
+    hashVerificado: filtro.hashVerificado === true ? "si" : "todos",
+    plataformaSecundaria
+  };
+
+  Object.entries(controles).forEach(([nombre, control]) => {
+    if (control) control.value = filtrosAvanzados[nombre];
+  });
+
+  document.querySelectorAll("[data-platform]").forEach((boton) => {
+    boton.classList.toggle(
+      "active",
+      boton.dataset.platform === plataformaActiva
+    );
+  });
+
+  actualizarVista();
+  cerrarPanelProgreso();
+
+  const seccionJuegos = document.getElementById("games-grid");
+
+  if (seccionJuegos) {
+    seccionJuegos.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
 function actualizarResumenCabecera() {
   const contador = document.getElementById("hero-game-count");
   if (!contador) return;
@@ -578,6 +674,10 @@ function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
       coincidePlataforma = juego.plataforma === plataforma;
     }
 
+    const coincidePlataformaSecundaria =
+      !filtros.plataformaSecundaria ||
+      juego.plataforma === filtros.plataformaSecundaria;
+
     const coincideAnio =
       filtros.anio === "todos" || juego.anio === filtros.anio;
 
@@ -595,6 +695,10 @@ function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
       (filtros.emulador === "probado" && tieneEmuladorProbado) ||
       (filtros.emulador === "no_probado" && !tieneEmuladorProbado);
 
+    const coincideHash =
+      filtros.hashVerificado === "todos" ||
+      (filtros.hashVerificado === "si" && juego.hashVerificado);
+
     const contenidoBuscable = [
       juego.titulo,
       juego.notasResumen
@@ -606,12 +710,14 @@ function filtrarJuegos(juegos, plataforma, busqueda, filtros) {
     const coincideBusqueda =
       termino === "" || contenidoBuscable.includes(termino);
 
-    return coincidePlataforma && 
+    return coincidePlataforma &&
+           coincidePlataformaSecundaria &&
            coincideBusqueda && 
            coincideAnio && 
            coincideDump && 
            coincideCompatibilidad && 
-           coincideEmulador
+           coincideEmulador &&
+           coincideHash;
   });
 }
 
@@ -655,7 +761,9 @@ function configurarFiltrosAvanzados() {
         anio: "todos",
         dump: "todos",
         compatibilidad: "todos",
-        emulador: "todos"
+        emulador: "todos",
+        hashVerificado: "todos",
+        plataformaSecundaria: ""
       };
 
       Object.values(controles).forEach((control) => {
@@ -885,23 +993,93 @@ function renderizarTablaPlataformas(juegos) {
 
     const fila = document.createElement("tr");
 
-    const datos = [
-      plataforma,
-      total,
-      ok,
-      avisos,
-      parcial,
-      pendiente,
-      fallido,
-      hashesOk,
-      sinProbar,
-      requiereAjustes,
-      soloLegacy
+    const celdas = [
+      {
+        valor: plataforma,
+        filtro: { plataforma },
+        etiqueta: `Ver todos los juegos de ${plataforma}`,
+        permitirCero: true
+      },
+      {
+        valor: total,
+        filtro: { plataforma },
+        etiqueta: `Ver todos los juegos de ${plataforma}`
+      },
+      {
+        valor: ok,
+        filtro: { plataforma, dump: "ok" },
+        etiqueta: `Ver juegos de ${plataforma} con dump OK`
+      },
+      {
+        valor: avisos,
+        filtro: { plataforma, dump: "avisos" },
+        etiqueta: `Ver juegos de ${plataforma} con dump con avisos`
+      },
+      {
+        valor: parcial,
+        filtro: { plataforma, dump: "parcial" },
+        etiqueta: `Ver juegos de ${plataforma} con dump parcial`
+      },
+      {
+        valor: pendiente,
+        filtro: { plataforma, dump: "pendiente" },
+        etiqueta: `Ver juegos de ${plataforma} con dump pendiente`
+      },
+      {
+        valor: fallido,
+        filtro: { plataforma, dump: "fallido" },
+        etiqueta: `Ver juegos de ${plataforma} con dump fallido`
+      },
+      {
+        valor: hashesOk,
+        filtro: { plataforma, hashVerificado: true },
+        etiqueta: `Ver juegos de ${plataforma} con hash verificado`
+      },
+      {
+        valor: sinProbar,
+        filtro: esPC
+          ? { plataforma, compatibilidad: "no_probado" }
+          : {
+              plataforma: "consolas_sin_emulador",
+              plataformaSecundaria: plataforma
+            },
+        etiqueta: esPC
+          ? `Ver juegos de PC no probados`
+          : `Ver juegos de ${plataforma} sin emulador probado`
+      },
+      {
+        valor: requiereAjustes,
+        filtro: { plataforma, compatibilidad: "requiere_ajustes" },
+        etiqueta: `Ver juegos de ${plataforma} que requieren ajustes`
+      },
+      {
+        valor: soloLegacy,
+        filtro: { plataforma, compatibilidad: "solo_legacy" },
+        etiqueta: `Ver juegos de ${plataforma} que requieren entorno legacy`
+      }
     ];
 
-    datos.forEach((dato) => {
+    celdas.forEach((celdaInfo) => {
       const celda = document.createElement("td");
-      celda.textContent = dato;
+      const boton = document.createElement("button");
+
+      boton.type = "button";
+      boton.className = "progreso-tabla-boton";
+      boton.textContent = celdaInfo.valor;
+      boton.setAttribute("aria-label", celdaInfo.etiqueta);
+
+      const debeDesactivarse =
+        celdaInfo.valor === 0 && !celdaInfo.permitirCero;
+
+      boton.disabled = debeDesactivarse;
+
+      if (!debeDesactivarse) {
+        boton.addEventListener("click", () => {
+          abrirFiltroDesdeProgreso(celdaInfo.filtro);
+        });
+      }
+
+      celda.appendChild(boton);
       fila.appendChild(celda);
     });
 

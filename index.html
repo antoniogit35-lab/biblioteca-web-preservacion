@@ -252,38 +252,81 @@
 
               <!-- Resumen global -->
               <div class="progreso-resumen">
-                <div class="progreso-tarjeta">
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{}'
+                  aria-label="Ver todos los juegos catalogados"
+                >
                   <div class="progreso-titulo">Juegos catalogados</div>
                   <div class="progreso-valor" id="pg-juegos">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"dump":"ok"}'
+                  aria-label="Ver juegos con dump OK"
+                >
                   <div class="progreso-titulo">Dumps OK</div>
                   <div class="progreso-valor" id="pg-dumps-ok">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"dump":"avisos"}'
+                  aria-label="Ver juegos con dump OK con avisos"
+                >
                   <div class="progreso-titulo">Dumps con avisos</div>
                   <div class="progreso-valor" id="pg-dumps-avisos">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"dump":"parcial"}'
+                  aria-label="Ver juegos con dump parcial"
+                >
                   <div class="progreso-titulo">Dumps parciales</div>
                   <div class="progreso-valor" id="pg-dumps-parciales">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"dump":"pendiente"}'
+                  aria-label="Ver juegos con dump pendiente"
+                >
                   <div class="progreso-titulo">Dumps pendientes</div>
                   <div class="progreso-valor" id="pg-dumps-pendientes">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"dump":"fallido"}'
+                  aria-label="Ver juegos con dump fallido"
+                >
                   <div class="progreso-titulo">Dumps fallidos</div>
                   <div class="progreso-valor" id="pg-dumps-fallidos">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"hashVerificado":true}'
+                  aria-label="Ver juegos con hash verificado"
+                >
                   <div class="progreso-titulo">Hashes verificados</div>
                   <div class="progreso-valor" id="pg-hashes-ok">0</div>
-                </div>
+                </button>
+
                 <div class="progreso-tarjeta">
                   <div class="progreso-titulo">Colección lista</div>
                   <div class="progreso-valor" id="pg-porcentaje-lista">0%</div>
                 </div>
+
                 <div class="progreso-tarjeta">
                   <div class="progreso-titulo">Hashes verificados (%)</div>
                   <div class="progreso-valor" id="pg-porcentaje-hashes">0%</div>
@@ -291,32 +334,66 @@
               </div>
 
               <!-- Pruebas de ejecución -->
-              <h3>Pruebas de ejecución</h3>
               <div class="progreso-resumen">
-                <div class="progreso-tarjeta">
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"PC","compatibilidad":"ok_moderno"}'
+                  aria-label="Ver juegos de PC que funcionan en sistema actual"
+                >
                   <div class="progreso-titulo">PC – OK moderno</div>
                   <div class="progreso-valor" id="pg-pc-ok">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"PC","compatibilidad":"solo_legacy"}'
+                  aria-label="Ver juegos de PC que requieren entorno legacy"
+                >
                   <div class="progreso-titulo">PC – Solo legacy</div>
                   <div class="progreso-valor" id="pg-pc-legacy">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"PC","compatibilidad":"requiere_ajustes"}'
+                  aria-label="Ver juegos de PC que requieren ajustes"
+                >
                   <div class="progreso-titulo">PC – Requiere ajustes</div>
                   <div class="progreso-valor" id="pg-pc-ajustes">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"PC","compatibilidad":"no_probado"}'
+                  aria-label="Ver juegos de PC no probados"
+                >
                   <div class="progreso-titulo">PC – No probado</div>
                   <div class="progreso-valor" id="pg-pc-noprobar">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"consolas_con_emulador"}'
+                  aria-label="Ver consolas con emulador probado"
+                >
                   <div class="progreso-titulo">Consolas – Emulador probado</div>
                   <div class="progreso-valor" id="pg-consolas-probado">0</div>
-                </div>
-                <div class="progreso-tarjeta">
+                </button>
+
+                <button
+                  class="progreso-tarjeta progreso-tarjeta-accionable"
+                  type="button"
+                  data-progreso-filtro='{"plataforma":"consolas_sin_emulador"}'
+                  aria-label="Ver consolas sin emulador probado"
+                >
                   <div class="progreso-titulo">Consolas – No probado</div>
                   <div class="progreso-valor" id="pg-consolas-noprobar">0</div>
-                </div>
+                </button>
               </div>
 
               <!-- Desglose por plataforma -->

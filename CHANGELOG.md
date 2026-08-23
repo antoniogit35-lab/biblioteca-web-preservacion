@@ -9,7 +9,43 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Diseñar una sección para catalogar y consultar el contenido del HDD, manteniendo una estructura coherente con la biblioteca de juegos físicos.
 - Valorar una variante simplificada del favicon/logotipo para mejorar su legibilidad a tamaños muy reducidos.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
-- Mejorar progresivamente la experiencia en dispositivos móviles y la navegación mediante teclado.
+
+## [v0.7.0] - 2026-08-23
+
+### Añadido
+
+- Añadida navegación directa desde el panel de progreso hacia los juegos que componen cada métrica.
+- Convertidas las tarjetas globales de juegos catalogados, estados de dump, hashes verificados y pruebas de ejecución en accesos a resultados filtrados.
+- Convertida la tabla de progreso por plataforma en una tabla interactiva.
+- Añadidos accesos desde cada plataforma a:
+  - Todos sus juegos.
+  - Estados de dump: OK, con avisos, parcial, pendiente y fallido.
+  - Juegos con hash verificado.
+  - Juegos sin probar.
+  - Juegos que requieren ajustes.
+  - Juegos que solo funcionan en entorno legacy.
+- Añadido filtro interno para consultar juegos con hash verificado desde el panel.
+- Añadido filtro secundario de plataforma para limitar correctamente las consultas de consola sin emulador probado a la plataforma seleccionada.
+
+### Cambiado
+
+- La consulta de progreso pasa de ser únicamente informativa a actuar como punto de entrada operativo para las tareas de preservación.
+- Las tarjetas y celdas con resultados disponibles muestran estados visuales de interacción.
+- Las métricas de valor cero quedan desactivadas para evitar consultas sin resultados.
+
+### Accesibilidad
+
+- Las métricas accionables se representan como botones semánticos.
+- Añadidos nombres accesibles a tarjetas y celdas que aplican filtros.
+- Añadidos estados de foco visible para navegación con teclado.
+- Se mantiene la sincronización de filtros, chips activos, contador de resultados y cuadrícula tras navegar desde el panel.
+
+### Validación
+
+- Verificada la navegación desde tarjetas globales, métricas de PC y filas de consola.
+- Verificado que “Sin probar” en consolas limita los resultados al sistema correspondiente.
+- Verificados estados desactivados para métricas con valor cero.
+- Verificada la interacción del panel en escritorio, teclado y pantallas estrechas.
 
 ## [v0.6.0] - 2026-08-22
 

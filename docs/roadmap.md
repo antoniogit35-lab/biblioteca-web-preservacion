@@ -184,7 +184,6 @@ Poder contestar rápidamente:
   - `Requiere ajustes` → plataforma PC + compatibilidad correspondiente.
 - Mantener sincronizados los filtros, chips activos, contador y la cuadrí·´cula.
 - Ajustar textos, tooltips y accesibilidad para las celdas interactivas.
-- Decidir si la exportación de informe encaja mejor en esta versión o en una posterior.
 
 ### Resultado esperado
 
