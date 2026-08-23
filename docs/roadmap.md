@@ -191,12 +191,46 @@ Poder pasar de un vistazo del progreso a una lista filtrada lista para trabajar,
 
 ---
 
+## v0.7.1 — Incorporación de Nintendo 64
+
+**Objetivo:** ampliar la biblioteca para contemplar la colección de Nintendo 64 y validar que una nueva plataforma se integra en todo el sistema.
+
+### Previsto
+
+- Añadir el botón de filtro de plataforma `N64` en `index.html`.
+- Añadir el icono de Nintendo 64 en `assets/img/platforms/`.
+- Añadir al menos un juego de Nintendo 64 en `catalogo_videojuegos.csv` como caso de prueba.
+- Registrar el juego con un estado de dump coherente aunque todavía no se haya realizado el volcado.
+- Confirmar que N64 aparece automáticamente en:
+  - El filtro de plataformas.
+  - La tabla de progreso.
+  - Los contadores de la colección.
+  - La ficha detallada.
+  - La vista de pendientes.
+  - La navegación desde las métricas.
+- Verificar la compatibilidad con juegos de consola sin emulador probado.
+
+### Fuera de alcance
+
+- Comprar el lector de cartuchos.
+- Realizar dumps reales de Nintendo 64.
+- Añadir rutas privadas, ROMs o herramientas al repositorio.
+
+### Resultado esperado
+
+La web debe tratar Nintendo 64 como una plataforma normal, sin cambios especiales en la lógica general y aunque el catálogo inicial contenga solo un juego de prueba pendiente.
+
+---
+
 ## v1.0.0 — Biblioteca web estable
 
 **Objetivo:** declarar la web completa y estable como catálogo personal de preservación.
 
 ### Cierre previsto
 
+- Catalogar todos los juegos físicos que forman parte de la colección actual, aunque algunos dumps, hashes o pruebas queden pendientes.
+- Confirmar que cada juego tiene una plataforma, título y estado de preservación coherentes.
+- Completar progresivamente portadas, años, regiones, notas y metadatos disponibles.
 - Validar todos los flujos principales:
   - Carga del CSV.
   - Agrupación multidisco.
@@ -204,9 +238,10 @@ Poder pasar de un vistazo del progreso a una lista filtrada lista para trabajar,
   - Filtros combinados.
   - Vista de pendientes.
   - Ficha detallada.
-  - Panel de progreso e informes.
-- Probar escritorio, ventana estrecha y móvil.
-- Corregir errores y detalles encontrados durante el uso real.
+  - Panel de progreso.
+  - Navegación desde métricas y tabla.
+- Probar escritorio, ventana estrecha, móvil y navegación mediante teclado.
+- Corregir erratas, detalles visuales y problemas encontrados durante la revisión final.
 - Limpiar código y estilos obsoletos.
 - Confirmar el esquema final del CSV y sus convenciones.
 - Actualizar README y documentación:
@@ -215,6 +250,10 @@ Poder pasar de un vistazo del progreso a una lista filtrada lista para trabajar,
   - Cómo registrar dump, hash, prueba y notas.
   - Qué archivos no se suben al repositorio.
 - Revisar el changelog y publicar la etiqueta `v1.0.0`.
+
+### Criterio de finalización
+
+La web se considerará terminada cuando permita registrar y consultar toda la colección física actual con independencia de que el trabajo de dump, verificación de hashes y pruebas de ejecución se complete de forma gradual.
 
 ### Alcance final de la web
 
@@ -226,6 +265,7 @@ La biblioteca web debe permitir:
 - Identificar tareas pendientes.
 - Consultar fichas completas por juego.
 - Ver progreso global y por plataforma.
+- Navegar desde el progreso hacia listas filtradas de trabajo.
 
 ### Fuera de alcance
 
@@ -241,3 +281,20 @@ La versión `v1.0.0` no incluirá:
 - Carrusel de sistemas.
 
 Esas funciones serán el punto de partida del futuro proyecto separado de **Biblioteca portátil para HDD**.
+
+---
+
+## v1.0.1 — Actualización de datos de preservación
+
+**Objetivo:** continuar el trabajo de preservación sobre una web ya estable, sin modificar el alcance funcional principal.
+
+### Posibles contenidos
+
+- Incorporar estados de dump actualizados.
+- Añadir hashes SHA-256 y verificaciones realizadas.
+- Registrar pruebas de emulación y compatibilidad.
+- Completar notas técnicas derivadas de nuevas sesiones de preservación.
+- Añadir los dumps de Nintendo 64 cuando estén disponibles.
+- Actualizar métricas y pendientes automáticamente a partir del catálogo revisado.
+
+La `v1.0.1` será principalmente una actualización de contenido y datos, no una nueva fase de funcionalidades de la aplicación.

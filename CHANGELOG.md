@@ -10,6 +10,31 @@ Todos los cambios importantes de este proyecto se irán registrando aquí.
 - Valorar una variante simplificada del favicon/logotipo para mejorar su legibilidad a tamaños muy reducidos.
 - Revisar y ampliar el catálogo real de juegos, portadas, notas y datos técnicos.
 
+## [v0.7.1] - 2026-08-23
+
+### Añadido
+
+- Añadido el filtro de plataforma `Nintendo 64`.
+- Añadido el icono de Nintendo 64 en la zona de filtros de plataforma.
+- Añadido `Super Mario 64` al catálogo como primer título de prueba para N64.
+- Añadido soporte de cartuchos mediante el valor `Cartucho` en el campo de tipo de soporte.
+- Añadida la plataforma N64 al desglose automático del panel de progreso.
+- Añadida la integración de N64 con la ficha detallada, la vista de pendientes y la navegación desde métricas.
+
+### Cambiado
+
+- Ampliado el catálogo de la colección de 61 a 62 juegos.
+- La biblioteca reconoce N64 como una plataforma de consola normal sin cambios especiales en la lógica de filtrado.
+- Los juegos de N64 sin dump registrado aparecen correctamente como `Dump pendiente`.
+- Los juegos de N64 sin emulador registrado aparecen correctamente como consolas sin prueba de emulador.
+
+### Validación
+
+- Verificado el filtro directo de Nintendo 64.
+- Verificada la combinación de N64 con el filtro de dump pendiente.
+- Verificada la tarjeta de `Super Mario 64`, incluyendo portada, plataforma, año y estado de dump.
+- Verificada la aparición de N64 en las métricas y el desglose por plataforma.
+
 ## [v0.7.0] - 2026-08-23
 
 ### Añadido
